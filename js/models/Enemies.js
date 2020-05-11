@@ -17,7 +17,6 @@ export default class Enemies extends Phaser.Physics.Arcade.Group {
         this.y = 0;
         var enemy=this.enemies.create(this.x,this.y,"enemy1");
         
-        //https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.Sprite.html#setFrame__anchor
         enemy.setFrame(2);
         enemy.setScale(0.4);
         enemy.checkWorldBounds = true;

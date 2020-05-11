@@ -1,4 +1,3 @@
-//import config from './config.js';
 import FirstScene from './scenes/FirstScene.js';
 import SecondScene from './scenes/SecondScene.js';
 import ThirdScene from './scenes/ThirdScene.js';
