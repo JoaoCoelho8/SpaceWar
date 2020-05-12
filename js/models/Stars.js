@@ -7,6 +7,7 @@ export default class Stars extends Phaser.Physics.Arcade.Group {
         this.y;
     }
 
+    //adicionar estrelas que vao aparecer no nivel 2 - aumentam score
     addStar(){
     do{
         this.x = 67*Math.floor(Math.random() * 10) + 10;

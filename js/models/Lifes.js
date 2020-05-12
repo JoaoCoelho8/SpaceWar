@@ -6,7 +6,7 @@ export default class Lifes extends Phaser.Physics.Arcade.Group {
         this.x;
         this.y;
     }
-
+      //adicionar vidas que vao aparecer no nivel 2 - aumentam vida
       addLife(){
         do{
             this.x = 67*Math.floor(Math.random() * 10) + 10;

@@ -8,7 +8,7 @@ export default class Enemies extends Phaser.Physics.Arcade.Group {
         this.y;
        
     }
-
+      //adicionar os inimigos - entrar de cima
       addNewEnemy(){
         do{
           this.x = 100*Math.floor(Math.random() * 10) + 10;
@@ -17,6 +17,7 @@ export default class Enemies extends Phaser.Physics.Arcade.Group {
         this.y = 0;
         var enemy=this.enemies.create(this.x,this.y,"enemy1");
         
+        //https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.Sprite.html#setFrame__anchor
         enemy.setFrame(2);
         enemy.setScale(0.4);
         enemy.checkWorldBounds = true;
@@ -24,6 +25,7 @@ export default class Enemies extends Phaser.Physics.Arcade.Group {
         enemy.setVelocityY(100);
       }
 
+      //adicionar os inimigos que vao ser usado no nivel 2 - entrar dos lados
       addNewEnemy2(){
         do{
           this.y = 100*Math.floor(Math.random() * 10) + 10;

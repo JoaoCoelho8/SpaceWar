@@ -4,6 +4,7 @@ export default class Bullets extends Phaser.Physics.Arcade.Sprite {
       this.setScale(0.75);
     }
   
+    //função de disparo
     fire(x, y,vx,vy) {
       this.setActive(true);
       this.setVisible(true);

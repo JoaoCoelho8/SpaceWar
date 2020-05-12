@@ -9,6 +9,7 @@ export default class Comets extends Phaser.Physics.Arcade.Group {
         this.isRight = true;
     }
 
+      //adiconar os cometas
       addNewEnemy(){
         do{
           this.y = 67*Math.floor(Math.random() * 10) + 10;
@@ -18,6 +19,7 @@ export default class Comets extends Phaser.Physics.Arcade.Group {
         this.opt = (Math.random()  > 0.5 ? 0 : 1000);
         this.x = this.opt;
         
+        //vem do lado direito
         if(this.isRight){
           var enemy=this.comets.create(this.x,this.y,"comet1");
           var randomVY = Math.random() * 300 + 150;
@@ -27,6 +29,8 @@ export default class Comets extends Phaser.Physics.Arcade.Group {
           enemy.setFrame(1);
           this.isRight = !this.isRight;
         }
+        
+        //vem do lado direito
         else {
           var enemy=this.comets.create(this.x,this.y,"comet");
           var randomVY = Math.random() * 300 + 150;
