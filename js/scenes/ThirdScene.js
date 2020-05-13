@@ -315,10 +315,11 @@ export default class ThirdScene extends Phaser.Scene {
       this.ship.y=900;
       this.ship.alive=true;
   }
- 
+
   //colisão entre bala e inimigo, destroi os dois
   colisionHandler(bullet, boss) {
     bullet.destroy();
+    boss.alive=true;
   }
 
   //colisão entre nave e cometa, destroi o cometa
@@ -409,7 +410,7 @@ export default class ThirdScene extends Phaser.Scene {
   createBoss() {
     //posição onde a boss vai começar
     this.boss = new Boss(this, 500, 500);
-    this.boss.setSize(90,90,true);
+    this.boss.setSize(1331,1463,true);
   }
 
   addInputs() {
