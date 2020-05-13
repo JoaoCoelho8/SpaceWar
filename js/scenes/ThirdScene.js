@@ -233,13 +233,18 @@ export default class ThirdScene extends Phaser.Scene {
       this.ship,
       this.boss,
       () => {
-        this.labelLivesBoss.setText(--this.boss.lives);
+        //para tudo
+        this.stopEvents();
+        //scene começa onde estava pq ainda tem vidas
+        this.recreateScene();
+        //perdemos uma vida
+        this.labelLives.setText(--this.ship.lives);
         //começa som da nossa nave que foi atingida
         this.dead.play();
       },
       null,
       this
-    );  
+    ); 
   }
 
   //adicionar eventos
