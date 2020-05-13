@@ -3,6 +3,7 @@ import Enemies from "../models/Enemies.js";
 import Comets from "../models/Comets.js";
 import Lifes from "../models/Lifes.js"
 import Stars from "../models/Stars.js";
+import Boss from "../models/boss.js";
 
 export default class ThirdScene extends Phaser.Scene {
   constructor() {
@@ -47,6 +48,12 @@ export default class ThirdScene extends Phaser.Scene {
       frameHeight: 300
     });
 
+    //adicionar vidas
+    this.load.spritesheet("boss", "assets/boss.png", {
+      frameWidth: 1331,
+      frameHeight: 1463
+    });
+
     // ganhar o jogo tem de ter este score
     this.scoretowin = 100;
    
@@ -62,13 +69,13 @@ export default class ThirdScene extends Phaser.Scene {
 
   create() {
     //https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.Group.html
-    this.enemies = new Enemies(this.physics.world, this, []);
     this.comets = new Comets(this.physics.world,this,[]);
     this.lifes = new Lifes(this.physics.world,this,[]);
     this.stars = new Stars(this.physics.world,this,[]);
 
     this.composeGUI();
     this.createShip();
+    this.createBoss();
     this.addInputs();
     this.addAnimations();
     this.checkWin();
@@ -151,24 +158,7 @@ export default class ThirdScene extends Phaser.Scene {
   }
 
   //adicionar colisão
-  addColisions() {  
-    //se balas colidirem com inimigos ....
-    this.enemiesCollider=this.physics.add.overlap(
-      this.ship.bullets,
-      this.enemies,
-      //eliminar a bala e o inimigo
-      this.colisionHandler,
-      () => {
-        //.... score aumenta 10 pq matamos um inimigos
-        this.score+=10;
-        //.... atualiza o score
-        this.labelScore.setText(this.score);
-        //.... som de o inimigo eliminado
-        this.enemyDown.play();
-      },
-      null,
-      this
-    );
+  addColisions() { 
 
     //se a nave colidir com os cometas ....
     this.enemiesCollider2=this.physics.add.overlap(
@@ -222,19 +212,28 @@ export default class ThirdScene extends Phaser.Scene {
       },
       null,
       this
-    );
+    ); 
+
+    //se balas colidirem com o boss ....
+    this.enemiesCollider=this.physics.add.overlap(
+      this.ship.bullets,
+      this.boss,
+      this.colisionHandler,
+      () => {
+        this.labelLivesBoss.setText(--this.boss.lives);
+        //começa som da nossa nave que foi atingida
+        this.dead.play();
+      },
+      null,
+      this
+    ); 
 
     //se a nave colidir com os inimigos ....
     this.physics.add.overlap(
       this.ship,
-      this.enemies,
+      this.boss,
       () => {
-        //para tudo
-        this.stopEvents();
-        //scene começa onde estava pq ainda tem vidas
-        this.recreateScene();
-        //perdemos uma vida
-        this.labelLives.setText(--this.ship.lives);
+        this.labelLivesBoss.setText(--this.boss.lives);
         //começa som da nossa nave que foi atingida
         this.dead.play();
       },
@@ -245,21 +244,6 @@ export default class ThirdScene extends Phaser.Scene {
 
   //adicionar eventos
   addEvents(){
-    //adiconar novos inimigos com delay de 350
-    this.timer = this.time.addEvent({
-      delay: 350,
-      callback: this.enemies.addNewEnemy,
-      callbackScope: this,
-      repeat: -1
-    });
-
-    //adiconar novos inimigos com delay de 350 - vao entrar de lado
-    this.timer2 = this.time.addEvent({
-      delay: 1000,
-      callback: this.enemies.addNewEnemy2,
-      callbackScope: this,
-      repeat: -1
-    });
 
     //adiconar novas vidas
     this.timer3 = this.time.addEvent({
@@ -296,8 +280,6 @@ export default class ThirdScene extends Phaser.Scene {
 
   //parar os eventos
   stopEvents(){
-    this.timer.destroy();
-    this.timer2.destroy();
     this.timer3.destroy();
     this.timer4.destroy();
     this.timer5.destroy();
@@ -306,10 +288,6 @@ export default class ThirdScene extends Phaser.Scene {
 
   //reconstituir scene
   recreateScene(){
-    //chamar os inimigos que estavam na scene
-    Phaser.Actions.Call(this.enemies.getChildren(), function(p) {
-      p.destroy();
-    });
 
     //chamar os cometas que estavam na scene
     Phaser.Actions.Call(this.comets.getChildren(), function(p) {
@@ -334,9 +312,8 @@ export default class ThirdScene extends Phaser.Scene {
   }
  
   //colisão entre bala e inimigo, destroi os dois
-  colisionHandler(bullet, enemy) {
+  colisionHandler(bullet, boss) {
     bullet.destroy();
-    enemy.destroy();
   }
 
   //colisão entre nave e cometa, destroi o cometa
@@ -392,6 +369,12 @@ export default class ThirdScene extends Phaser.Scene {
     });
 
     //adicionar texto
+    this.labelLivesBoss = this.add.text(550 , 1150, 100, {
+      font: "30px Cambria",
+      fill: "#ffffff"
+    });
+
+    //adicionar texto
     this.scText = this.add.text(650, 1150, "Score:",{
       font: "30px Cambria",
       fill: "#ffffff"
@@ -402,6 +385,12 @@ export default class ThirdScene extends Phaser.Scene {
       font: "30px Cambria",
       fill: "#ffffff"
     });
+
+    //adicionar texto
+    this.lvText = this.add.text(400, 1150, "Boss Lives:",{
+      font: "30px Cambria",
+      fill: "#ffffff"
+    });
   }
 
   //criar a nave
@@ -409,6 +398,13 @@ export default class ThirdScene extends Phaser.Scene {
     //posição onde a nave vai começar
     this.ship = new Ship(this, 500, 900);
     this.ship.setSize(90,90,true);
+  }
+
+  //criar boss
+  createBoss() {
+    //posição onde a boss vai começar
+    this.boss = new Boss(this, 500, 500);
+    this.boss.setSize(90,90,true);
   }
 
   addInputs() {
