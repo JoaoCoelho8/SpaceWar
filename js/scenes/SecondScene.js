@@ -13,8 +13,8 @@ export default class SecondScene extends Phaser.Scene {
   preload() {
     //adicionar a nave
     this.load.spritesheet("ship", "assets/ship.png", {
-      frameWidth: 396/4,
-      frameHeight: 308/2,
+      frameWidth: 64,
+      frameHeight: 255/4,
     });
 
     //adicionar inimigo
@@ -417,7 +417,7 @@ export default class SecondScene extends Phaser.Scene {
   addAnimations(){
     this.anims.create({
         key:'turn',
-        frames: [{key:'ship' , frame: 0}],
+        frames: [{key:'ship' , frame: 3}],
         frameRate:1,
     });
 
@@ -430,28 +430,28 @@ export default class SecondScene extends Phaser.Scene {
 
     this.anims.create({
         key:'right',
-        frames: [{key:'ship' , frame: 3}],
+        frames: [{key:'ship' , frame: 2}],
         frameRate:1,
         repeat: -1
     });
 
     this.anims.create({
         key:'up',
-        frames: [{key:'ship' , frame: 4}],
+        frames: [{key:'ship' , frame: 0}],
         frameRate:10,
         repeat: -1
     });
 
     this.anims.create({
         key:'up_left',
-        frames: [{key:'ship' , frame: 5}],
+        frames: [{key:'ship' , frame: 1}],
         frameRate:10,
         repeat: -1
     });
 
     this.anims.create({
         key:'up_right',
-        frames: [{key:'ship' , frame: 7}],
+        frames: [{key:'ship' , frame: 2}],
         frameRate:10,
         repeat: -1
     });

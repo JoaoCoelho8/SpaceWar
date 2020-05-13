@@ -13,8 +13,8 @@ export default class ThirdScene extends Phaser.Scene {
   preload() {
     //adicionar a nave
     this.load.spritesheet("ship", "assets/ship.png", {
-      frameWidth: 396/4,
-      frameHeight: 308/2,
+      frameWidth: 64,
+      frameHeight: 255/4,
     });
 
     //adicionar inimigo
@@ -354,39 +354,39 @@ export default class ThirdScene extends Phaser.Scene {
 
     //score começa em 0
     this.score = 0;
-    
+
     //adicionar texto
-    this.highText = this.add.text(730, 10, "Highscore:",{
+    this.highText = this.add.text(750, 10, "Highscore:",{
       font: "30px Cambria",
       fill: "#ffffff"
     });
 
     //adicionar texto
-    this.highScore1 = this.add.text(880,10, this.highScore,{
+    this.highScore1 = this.add.text(900,10, this.highScore,{
       font: "30px Cambria",
       fill: "#ffffff"
     });
 
     //adicionar texto
-    this.labelScore = this.add.text(90, 1150, 0, {
+    this.labelScore = this.add.text(750, 1150, 0, {
       font: "30px Cambria",
       fill: "#ffffff"
     });
 
     //adicionar texto
-    this.labelLives = this.add.text(950 , 1150, 5, {
+    this.labelLives = this.add.text(930 , 1150, 5, {
       font: "30px Cambria",
       fill: "#ffffff"
     });
 
     //adicionar texto
-    this.scText = this.add.text(5, 1150, "Score:",{
+    this.scText = this.add.text(650, 1150, "Score:",{
       font: "30px Cambria",
       fill: "#ffffff"
     });
 
     //adicionar texto
-    this.lvText = this.add.text(850, 1150, "Lives:",{
+    this.lvText = this.add.text(830, 1150, "Lives:",{
       font: "30px Cambria",
       fill: "#ffffff"
     });
@@ -413,7 +413,7 @@ export default class ThirdScene extends Phaser.Scene {
   addAnimations(){
     this.anims.create({
         key:'turn',
-        frames: [{key:'ship' , frame: 0}],
+        frames: [{key:'ship' , frame: 3}],
         frameRate:1,
     });
 
@@ -426,28 +426,28 @@ export default class ThirdScene extends Phaser.Scene {
 
     this.anims.create({
         key:'right',
-        frames: [{key:'ship' , frame: 3}],
+        frames: [{key:'ship' , frame: 2}],
         frameRate:1,
         repeat: -1
     });
 
     this.anims.create({
         key:'up',
-        frames: [{key:'ship' , frame: 4}],
+        frames: [{key:'ship' , frame: 0}],
         frameRate:10,
         repeat: -1
     });
 
     this.anims.create({
         key:'up_left',
-        frames: [{key:'ship' , frame: 5}],
+        frames: [{key:'ship' , frame: 1}],
         frameRate:10,
         repeat: -1
     });
 
     this.anims.create({
         key:'up_right',
-        frames: [{key:'ship' , frame: 7}],
+        frames: [{key:'ship' , frame: 2}],
         frameRate:10,
         repeat: -1
     });
