@@ -356,6 +356,12 @@ export default class ThirdScene extends Phaser.Scene {
     this.score = 0;
 
     //adicionar texto
+    this.highText = this.add.text(400, 10, "Level 3",{
+      font: "30px Cambria",
+      fill: "#ffffff"
+    });
+
+    //adicionar texto
     this.highText = this.add.text(750, 10, "Highscore:",{
       font: "30px Cambria",
       fill: "#ffffff"

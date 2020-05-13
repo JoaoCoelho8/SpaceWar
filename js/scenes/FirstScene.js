@@ -264,6 +264,12 @@ export default class FirstScene extends Phaser.Scene {
 
     //score começa em 0
     this.score = 0;
+
+    //adicionar texto
+    this.highText = this.add.text(400, 10, "Level 1",{
+      font: "30px Cambria",
+      fill: "#ffffff"
+    });
     
     //adicionar texto
     this.highText = this.add.text(750, 10, "Highscore:",{
