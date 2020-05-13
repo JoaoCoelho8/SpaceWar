@@ -11,24 +11,24 @@ export default class PauseFirstScene extends Phaser.Scene {
 	preload() {
 		// carregar imagem fundo
 		this.load.image("backgroundnext", "assets/background.png");
-
-		// carregar som fundo
-		this.load.audio("background-music", "assets/sounds/Menu-music.mp3");
 	}
  
 	create() {
 		//adicionar a imagem de fundo
 		this.add.image(500, 600,'backgroundnext');
-
-		//adicionar o som de fundo
-		this.backgroundSound = this.sound.add("background-music", { volume: 0.4, loop: true });
 		
-		//space vai ser usado para avançar para o nivel seguinte
-        this.pausekey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+		this.pausekey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+		this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
 		//adicionar texto
-        this.add.text(130, 550, "Pause", {
+        this.add.text(200, 550, "Pause\nPress ESC To Continue\nPress ENTER To Go To Menu", {
             font: "50px Cambria",
+            fill: "white",
+            align: "center",
+		});
+
+		this.add.text(350, 300, "Nível 1", {
+            font: "100px Cambria",
             fill: "white",
             align: "center",
 		});
@@ -39,8 +39,15 @@ export default class PauseFirstScene extends Phaser.Scene {
 		if (this.pausekey.isDown) {
             this.pausekey.isDown=false;
 			this.scene.stop();
-            this.scene.resume('FirstScene');
-            
+            this.scene.resume('FirstScene');   
+		}
+
+		//ir para menu
+		if (this.enterKey.isDown) {
+            this.enterKey.isDown=false;
+			this.scene.stop();
+			this.scene.stop('FirstScene');  
+			this.scene.start('MenuScene') 
 		}
 	}
 }

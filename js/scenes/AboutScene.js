@@ -17,6 +17,7 @@ export default class AboutScene extends Phaser.Scene {
 
 		//adicionar o som de fundo
 		this.backgroundSound = this.sound.add("background-music", { volume: 0.4, loop: true });
+		this.backgroundSound.play();
 		
         //space vai ser usado para sair do menu about
 		this.space_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);

@@ -39,7 +39,7 @@ export default class StartScene extends Phaser.Scene {
 		});
 
 		//adicionar texto
-        this.labelPlayNum = this.add.text (70, 500, string, {
+        this.labelPlayNum = this.add.text (50, 500, string, {
 			font: "40px Cambria",
 			fill: "white"
 		});
@@ -48,6 +48,9 @@ export default class StartScene extends Phaser.Scene {
 	update() {
 		//quando clicar no space avança para o menu
 		if (this.space_key.isDown) {
+			this.space_key.isDown=false;
+			this.scene.stop();
+			this.backgroundSound.stop();
 			this.scene.start('MenuScene');
 		}
 	}

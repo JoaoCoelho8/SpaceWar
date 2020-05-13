@@ -24,10 +24,10 @@ export default class SecondNextLevelScene extends Phaser.Scene {
 		this.backgroundSound = this.sound.add("background-music", { volume: 0.4, loop: true });
 
 		//space vai ser usado para avançar para o nivel seguinte
-        this.space_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.enterkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
 		//adicionar texto
-        this.add.text(130, 550, "Congratulations! You Win!\n Starting level 3, GOOD LUCK!!\n Press Space Bar For Next Level!", {
+        this.add.text(70, 450, "Oh no, their master is coming!\nIt is time for the final battle!\nMay the force be with you\n\n\n Press ENTER To Go To The Final Battle!", {
             font: "50px Cambria",
             fill: "white",
             align: "center",
@@ -36,7 +36,7 @@ export default class SecondNextLevelScene extends Phaser.Scene {
     
     update() {
 		//quando clicar no space começa o nivel seguinte
-		if (this.space_key.isDown) {
+		if (this.enterkey.isDown) {
 			this.scene.start('ThirdScene');
 		}
 	}

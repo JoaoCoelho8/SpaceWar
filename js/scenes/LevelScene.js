@@ -22,7 +22,7 @@ export default class LevelScene extends Phaser.Scene {
 
 		//adicionar som fundo 
 		this.backgroundSound = this.sound.add("background-music", { volume: 0.4, loop: true });
-
+		this.backgroundSound.play();
 		//telca com numero 1 vai ser usada para entrar nivel 1
 		this.one_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE);
 		//telca com numero 2 vai ser usada para entrar nivel 2
@@ -73,24 +73,33 @@ export default class LevelScene extends Phaser.Scene {
 	update() {
 		//quando clicar na tecla 1 começa nivel 1
 		if (this.one_key.isDown) {
+			this.one_key.isDown=false;
+			this.scene.stop();
+			this.backgroundSound.stop();
 			this.scene.start('FirstScene');
 		}
 
 		//quando clicar na tecla 2 começa nivel 2
 		if (this.two_key.isDown) {
+			this.two_key.isDown=false;
+			this.scene.stop();
+			this.backgroundSound.stop();
 			this.scene.start('SecondScene');
 		}
 
 		//quando clicar na tecla 3 começa nivel 3
 		if (this.three_key.isDown) {
+			this.three_key.isDown=false;
+			this.scene.stop();
+			this.backgroundSound.stop();
 			this.scene.start('ThirdScene');
 		}
 
 		//quando clicar no space volta para o menu inicial
 		if (this.space_key.isDown) {
 			this.space_key.isDown=false;
-			this.backgroundSound.stop();
 			this.scene.stop();
+			this.backgroundSound.stop();
 			this.scene.start('MenuScene');
 		}
 	}

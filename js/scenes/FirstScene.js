@@ -52,6 +52,9 @@ export default class FirstScene extends Phaser.Scene {
     this.enemies = new Enemies(this.physics.world, this, []);
     this.comets = new Comets(this.physics.world,this,[]);
 
+    this.song = this.sound.add("song", { volume: 0.4, loop: true });
+    this.song.play();
+    
     this.composeGUI();
     this.createShip();
     this.addInputs();
@@ -67,6 +70,9 @@ export default class FirstScene extends Phaser.Scene {
   //será usado aqui para marcar a duração entre dois tiros consecutivos
   //https://photonstorm.github.io/phaser3-docs/Phaser.Scene.html#update__anchor
   update(time,delta) {
+    this.song.resume()
+    //console.log(this.song);
+    
     // passar de nivel
     this.checkWin();
 
@@ -123,8 +129,6 @@ export default class FirstScene extends Phaser.Scene {
     this.shootS.setVolume(0.10);
     this.enemyDown = this.sound.add("eDown");
     this.enemyDown.setVolume(0.25);
-    this.song = this.sound.add("song");
-    this.song.play();
     this.dead = this.sound.add("dead");
     this.dead.setVolume(0.25);
   }
@@ -262,37 +266,37 @@ export default class FirstScene extends Phaser.Scene {
     this.score = 0;
     
     //adicionar texto
-    this.highText = this.add.text(730, 10, "Highscore:",{
+    this.highText = this.add.text(750, 10, "Highscore:",{
       font: "30px Cambria",
       fill: "#ffffff"
     });
 
     //adicionar texto
-    this.highScore1 = this.add.text(880,10, this.highScore,{
+    this.highScore1 = this.add.text(900,10, this.highScore,{
       font: "30px Cambria",
       fill: "#ffffff"
     });
 
     //adicionar texto
-    this.labelScore = this.add.text(90, 1150, 0, {
+    this.labelScore = this.add.text(750, 1150, 0, {
       font: "30px Cambria",
       fill: "#ffffff"
     });
 
     //adicionar texto
-    this.labelLives = this.add.text(950 , 1150, 5, {
+    this.labelLives = this.add.text(930 , 1150, 5, {
       font: "30px Cambria",
       fill: "#ffffff"
     });
 
     //adicionar texto
-    this.scText = this.add.text(5, 1150, "Score:",{
+    this.scText = this.add.text(650, 1150, "Score:",{
       font: "30px Cambria",
       fill: "#ffffff"
     });
 
     //adicionar texto
-    this.lvText = this.add.text(850, 1150, "Lives:",{
+    this.lvText = this.add.text(830, 1150, "Lives:",{
       font: "30px Cambria",
       fill: "#ffffff"
     });
@@ -392,13 +396,14 @@ export default class FirstScene extends Phaser.Scene {
   pause(){
     if(Phaser.Input.Keyboard.JustDown(this.pauseKey)){
       this.scene.launch('PauseFirstScene');
+      this.song.pause();
       this.scene.pause();
     }
   }
 
   //começar som
   playSong(){
-    this.song.stop();
+    this.song.pause();
     this.song.play();
   }
 }
