@@ -28,7 +28,7 @@ export default class HelpScene extends Phaser.Scene {
 		this.space_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 		
 		//texto a aparecer no menu help 
-		var string = 'Space - shoot\nKeyboard arrows - move\nESC - pause\n\nStars - will increase your score\nHearth - will increase your life\n\nYou need score of 1000 to go from level 1 to level 2\nYou need score of 3000 to go from level 2 to level 3\nYou need to defeat the boss to win the game';
+		var string = 'Space - shoot\nKeyboard arrows - move\nESC - pause\nU - increase sound\nD - decrease sound\n\nStars - will increase your score\nHearth - will increase your life\n\nYou need score of 1000 to go from level 1 to level 2\nYou need score of 3000 to go from level 2 to level 3\nYou need to defeat the boss to win the game';
 
 		//adicionar texto
         this.labelPlayNum = this.add.text(170, 60, "Saving Planet Earth", {
@@ -43,7 +43,7 @@ export default class HelpScene extends Phaser.Scene {
 		});
 
 		//adicionar texto
-		this.labelPlayNum = this.add.text (70, 500, string, {
+		this.labelPlayNum = this.add.text (70, 450, string, {
 			font: "40px Cambria",
 			fill: "white"
 		});

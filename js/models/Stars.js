@@ -17,7 +17,7 @@ export default class Stars extends Phaser.Physics.Arcade.Group {
 
     var star=this.stars.create(this.x,this.y,"star");
     star.setVelocityX(0);
-    star.setVelocityY(275);
+    star.setVelocityY(250);
     star.setFrame(0);
     star.setScale(0.1);
     star.checkWorldBounds = true;

@@ -16,7 +16,7 @@ export default class Lifes extends Phaser.Physics.Arcade.Group {
     
         var life=this.lifes.create(this.x,this.y,"life");
         life.setVelocityX(0);
-        life.setVelocityY(275);
+        life.setVelocityY(250);
         life.setFrame(0);
         life.setScale(0.01);
         life.checkWorldBounds = true;

@@ -61,6 +61,8 @@ export default class FirstScene extends Phaser.Scene {
     this.addAnimations();
     this.checkWin();
     this.pause();
+    this.songUp();
+    this.songDown();
     this.addSounds();
     this.addEvents();
     this.addColisions();  
@@ -70,6 +72,10 @@ export default class FirstScene extends Phaser.Scene {
   //será usado aqui para marcar a duração entre dois tiros consecutivos
   //https://photonstorm.github.io/phaser3-docs/Phaser.Scene.html#update__anchor
   update(time,delta) {
+
+    this.songUp();
+    this.songDown();
+    
     this.song.resume()
     //console.log(this.song);
     
@@ -323,6 +329,10 @@ export default class FirstScene extends Phaser.Scene {
     this.menuKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     //tecla para pausar o jogo
     this.pauseKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+    //tecla para aumentar som
+    this.songup = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.U);
+    //tecla para diminuir som
+    this.songdown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
   }
 
   //adicionar animaçoes na nave
@@ -404,6 +414,18 @@ export default class FirstScene extends Phaser.Scene {
       this.scene.launch('PauseFirstScene');
       this.song.pause();
       this.scene.pause();
+    }
+  }
+
+  songUp(){
+    if(Phaser.Input.Keyboard.JustDown(this.songup)){
+      this.song.setVolume(1.0);
+    }
+  }
+
+  songDown(){
+    if(Phaser.Input.Keyboard.JustDown(this.songdown)){
+      this.song.setVolume(0.4);
     }
   }
 
