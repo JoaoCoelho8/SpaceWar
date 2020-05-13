@@ -37,6 +37,7 @@ export default class NextLevelScene extends Phaser.Scene {
     update() {
 		//quando clicar no space começa o nivel seguinte
 		if (this.enterkey.isDown) {
+			this.backgroundSound.stop();
 			this.scene.start('SecondScene');
 		}
 	}
