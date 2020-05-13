@@ -5,7 +5,7 @@ export default class Ship extends Phaser.Physics.Arcade.Sprite{
         super(scene,x,y,'ship');        
         this.scene=scene;
         this.alive=true;
-        this.setScale(0.4);
+        this.setScale(1.0);
         this.lives=5;
         this.nextTick=0;
         this.bullets=this.scene.physics.add.group({
