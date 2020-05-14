@@ -12,9 +12,9 @@ export default class Enemies extends Phaser.Physics.Arcade.Group {
       addNewEnemy(){
         do{
           this.x = 100*Math.floor(Math.random() * 10) + 10;
-          if(this.x <=20) this.x = 20;  
+          if(this.x <=20) this.x = 20;
         } while (this.x > 1000); 
-        this.y = 0;
+        this.y = 23;
         var enemy=this.enemies.create(this.x,this.y,"enemy1");
         
         //https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.Sprite.html#setFrame__anchor

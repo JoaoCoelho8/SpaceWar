@@ -330,7 +330,7 @@ export default class FirstScene extends Phaser.Scene {
     //tecla para pausar o jogo
     this.pauseKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     //tecla para aumentar som
-    this.songup = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.U);
+    this.songup = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     //tecla para diminuir som
     this.songdown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
   }
@@ -419,13 +419,45 @@ export default class FirstScene extends Phaser.Scene {
 
   songUp(){
     if(Phaser.Input.Keyboard.JustDown(this.songup)){
-      this.song.setVolume(1.0);
+      this.song.setVolume(this.song.volume+0.08);
+      this.catchupS.setVolume(this.catchupS.volume+0.01);
+      this.shootS.setVolume(this.shootS.volume+0.02);
+      this.enemyDown.setVolume(this.enemyDown.volume+0.05);
+      this.dead.setVolume(this.dead.volume+0.05);
     }
   }
 
   songDown(){
     if(Phaser.Input.Keyboard.JustDown(this.songdown)){
-      this.song.setVolume(0.4);
+      if((this.song.volume-0.08)>0){
+        this.song.setVolume(this.song.volume-0.08);
+      }else{
+        this.song.setVolume(0)
+      }
+
+      if((this.catchupS.volume-0.01)>0){
+        this.catchupS.setVolume(this.catchupS.volume-0.01);
+      }else{
+        this.catchupS.setVolume(0)
+      }
+
+      if((this.shootS.volume-0.02)>0){
+        this.shootS.setVolume(this.shootS.volume-0.02);
+      }else{
+        this.shootS.setVolume(0)
+      }
+
+      if((this.enemyDown.volume-0.05)>0){
+        this.enemyDown.setVolume(this.enemyDown.volume-0.05);
+      }else{
+        this.enemyDown.setVolume(0)
+      }
+
+      if((this.dead.volume-0.05)>0){
+        this.dead.setVolume(this.dead.volume-0.05);
+      }else{
+        this.dead.setVolume(0)
+      }
     }
   }
 
