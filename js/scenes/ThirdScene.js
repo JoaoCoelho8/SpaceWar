@@ -523,7 +523,7 @@ export default class ThirdScene extends Phaser.Scene {
   // passar de nivel
   checkWin() {
     //se o score que temos for igual so score que é preciso, ganhou o jogo
-		if (this.score >= this.scoretowin) {
+		if (this.boss.lives <= 0) {
         localStorage.setItem("complete", "3");
         this.song.stop();
         this.scene.stop();
