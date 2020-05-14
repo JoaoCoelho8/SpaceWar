@@ -22,7 +22,8 @@ export default class SecondNextLevelScene extends Phaser.Scene {
 		
 		//adicionar o som de fundo
 		this.backgroundSound = this.sound.add("background-music", { volume: 0.4, loop: true });
-
+		this.backgroundSound.play();
+		
 		//space vai ser usado para avançar para o nivel seguinte
         this.enterkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
