@@ -4,6 +4,7 @@ import Comets from "../models/Comets.js";
 import Lifes from "../models/Lifes.js"
 import Stars from "../models/Stars.js";
 import Boss from "../models/boss.js";
+import Bullets from "../models/Bullets.js";
 
 export default class ThirdScene extends Phaser.Scene {
   constructor() {
@@ -84,7 +85,7 @@ export default class ThirdScene extends Phaser.Scene {
     this.songDown();
     this.addSounds();
     this.addEvents();
-    this.addColisions();  
+    this.addColisions();
   }
 
   //função update pode ter como parametros o tempo do jogo e a variação em milisegundos entre as frames
@@ -218,15 +219,19 @@ export default class ThirdScene extends Phaser.Scene {
     this.enemiesCollider=this.physics.add.overlap(
       this.ship.bullets,
       this.boss,
-      this.colisionHandler,
       () => {
-        this.labelLivesBoss.setText(--this.boss.lives);
-        //começa som da nossa nave que foi atingida
-        this.dead.play();
-      },
-      null,
-      this
-    ); 
+        if (this.boss.canBeKilled) {
+          this.boss.dead();
+          this.dead.play();
+          this.labelLivesBoss.setText(--this.boss.lives);
+          this.time.addEvent({
+            delay: 1000,
+            callback: () => {
+                this.boss.revive();
+            }
+        });
+    }
+  }); 
 
     //se a nave colidir com os inimigos ....
     this.physics.add.overlap(
@@ -316,10 +321,34 @@ export default class ThirdScene extends Phaser.Scene {
       this.ship.alive=true;
   }
 
+  //reconstituir scene
+  recreateScene1(){
+
+    //chamar os cometas que estavam na scene
+    Phaser.Actions.Call(this.comets.getChildren(), function(p) {
+      p.destroy();
+    });
+
+    //chamar os coraçoes que estavam na scene
+    Phaser.Actions.Call(this.lifes.getChildren(), function(p) {
+      p.destroy();
+    });
+
+    //chamar as estrelas que estavam na scene
+    Phaser.Actions.Call(this.stars.getChildren(), function(p) {
+      p.destroy();
+    });
+
+    //nave recomeça na posição inicial
+      this.addEvents();
+      this.createBoss();
+      this.boss.alive=true;   
+      this.boss.setGravityY(0);
+  }
+
   //colisão entre bala e inimigo, destroi os dois
-  colisionHandler(bullet, boss) {
+  colisionHandler(bullet) {
     bullet.destroy();
-    boss.alive=true;
   }
 
   //colisão entre nave e cometa, destroi o cometa
@@ -411,6 +440,8 @@ export default class ThirdScene extends Phaser.Scene {
     //posição onde a boss vai começar
     this.boss = new Boss(this, 500, 500);
     this.boss.setSize(1331,1463,true);
+    this.boss.alive=true;
+    this.boss.setGravityY(0);
   }
 
   addInputs() {
@@ -519,6 +550,60 @@ export default class ThirdScene extends Phaser.Scene {
       this.song.setVolume(0.4);
     }
   }
+
+/** 
+  moveBossDownLeft() {
+    if (this.boss.body.y<600){
+      this.boss.body.velocity.y = 25;
+    } else {
+      this.boss.body.velocity.y = 0;
+    } 
+     if (this.boss.body.x>200){
+      this.boss.body.velocity.x = -25;
+    } else {
+      this.boss.body.velocity.x = 0;
+    }
+  }
+
+  moveBossUpRight() {
+    if (this.boss.body.y>300){
+      this.boss.body.velocity.y = -25;
+    } else {
+      this.boss.body.velocity.y = 0;
+    } 
+     if (this.boss.body.x<600){
+      this.boss.body.velocity.x = 25;
+    } else {
+      this.boss.body.velocity.x = 0;
+    }
+  }
+
+  moveBossDownRight() {
+    if (this.boss.body.y<600){
+      this.boss.body.velocity.y = 25;
+    } else {
+      this.boss.body.velocity.y = 0;
+    } 
+     if (this.boss.body.x<500){
+      this.boss.body.velocity.x = 25;
+    } else {
+      this.boss.body.velocity.x = 0;
+    }
+  }
+
+  moveBossDownRight() {
+    if (this.boss.body.y<600){
+      this.boss.body.velocity.y = 25;
+    } else {
+      this.boss.body.velocity.y = 0;
+    } 
+     if (this.boss.body.x<500){
+      this.boss.body.velocity.x = 25;
+    } else {
+      this.boss.body.velocity.x = 0;
+    }
+  }
+  */
 
   //começar som
   playSong(){
