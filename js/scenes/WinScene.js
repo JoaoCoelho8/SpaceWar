@@ -24,7 +24,7 @@ export default class WinScene extends Phaser.Scene {
 		this.backgroundSound = this.sound.add("background-music", { volume: 0.4, loop: true });
 		
 		//space vai ser usado para avançar para o nivel seguinte
-        this.space_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.space_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
 		//adicionar texto
         this.add.text(130, 550, "Congratulations! You Win The Game!!!", {

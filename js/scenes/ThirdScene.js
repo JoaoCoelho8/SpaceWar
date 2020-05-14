@@ -86,12 +86,15 @@ export default class ThirdScene extends Phaser.Scene {
     this.addSounds();
     this.addEvents();
     this.addColisions();
+    this.moveBoss();
   }
 
   //função update pode ter como parametros o tempo do jogo e a variação em milisegundos entre as frames
   //será usado aqui para marcar a duração entre dois tiros consecutivos
   //https://photonstorm.github.io/phaser3-docs/Phaser.Scene.html#update__anchor
   update(time,delta) {
+
+    this.moveBoss();
 
     this.songUp();
     this.songDown();
@@ -560,59 +563,12 @@ export default class ThirdScene extends Phaser.Scene {
     }
   }
 
-/** 
-  moveBossDownLeft() {
-    if (this.boss.body.y<600){
-      this.boss.body.velocity.y = 25;
-    } else {
-      this.boss.body.velocity.y = 0;
+  //mover o boss para a esquerda e depois para a direita
+  moveBoss(){
+    if(this.boss.x >=200){
+      this.boss.moveBossLeft();
     } 
-     if (this.boss.body.x>200){
-      this.boss.body.velocity.x = -25;
-    } else {
-      this.boss.body.velocity.x = 0;
-    }
   }
-
-  moveBossUpRight() {
-    if (this.boss.body.y>300){
-      this.boss.body.velocity.y = -25;
-    } else {
-      this.boss.body.velocity.y = 0;
-    } 
-     if (this.boss.body.x<600){
-      this.boss.body.velocity.x = 25;
-    } else {
-      this.boss.body.velocity.x = 0;
-    }
-  }
-
-  moveBossDownRight() {
-    if (this.boss.body.y<600){
-      this.boss.body.velocity.y = 25;
-    } else {
-      this.boss.body.velocity.y = 0;
-    } 
-     if (this.boss.body.x<500){
-      this.boss.body.velocity.x = 25;
-    } else {
-      this.boss.body.velocity.x = 0;
-    }
-  }
-
-  moveBossDownRight() {
-    if (this.boss.body.y<600){
-      this.boss.body.velocity.y = 25;
-    } else {
-      this.boss.body.velocity.y = 0;
-    } 
-     if (this.boss.body.x<500){
-      this.boss.body.velocity.x = 25;
-    } else {
-      this.boss.body.velocity.x = 0;
-    }
-  }
-  */
 
   //começar som
   playSong(){

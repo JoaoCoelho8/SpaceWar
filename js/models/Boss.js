@@ -12,6 +12,16 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite{
         this.setGravityY(0);        
     }
 
+    //mover o boss para a esquerda 
+    moveBossLeft(){
+      this.x--;
+    }
+
+    //mover o boss para a esquerda 
+    moveBossRight(){
+        this.x++;
+      }
+    
     dead() {
         let x = this.x;
         let y = this.y;
@@ -21,9 +31,6 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite{
      * replace the boss on-screen, change the bird color (tint) and re-enable collisions
      */
     revive() {
-
-        this.x = 500;
-        this.y = 500;
 
         let i = 0;
         let repetition = 200
