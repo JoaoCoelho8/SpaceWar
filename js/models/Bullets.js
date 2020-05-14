@@ -1,7 +1,9 @@
 export default class Bullets extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene) {
-      super(scene, 0, 0,"bullet");
+    constructor(scene, x, y) {
+      super(scene, x, y,"bullet");
       this.setScale(0.75);
+      this.scene.add.existing(this);
+      this.scene.physics.world.enable(this);
     }
   
     //função de disparo
@@ -12,5 +14,11 @@ export default class Bullets extends Phaser.Physics.Arcade.Sprite {
       this.setVelocityX(vx);
       this.setVelocityY(vy);
     }
+
+    removeFromScreen() {
+      this.y = -100;
+      this.setVelocity(0, 0);
+  }
+
   }
   

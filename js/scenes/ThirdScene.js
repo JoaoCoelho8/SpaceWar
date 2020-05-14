@@ -136,10 +136,11 @@ export default class ThirdScene extends Phaser.Scene {
       this.ship.y = 900;
       this.ship.setGravityY(0);
 
-      //.... clicar no enter para recmeçar
-      if (Phaser.Input.Keyboard.JustDown(this.menuKey)) {
+       //.... clicar no enter para recmeçar
+       if (Phaser.Input.Keyboard.JustDown(this.menuKey)) {
         this.song.stop();
-        this.scene.restart();
+        this.scene.stop();
+        this.scene.start('FirstScene');
       }
     }
   }
@@ -219,6 +220,7 @@ export default class ThirdScene extends Phaser.Scene {
     this.enemiesCollider=this.physics.add.overlap(
       this.ship.bullets,
       this.boss,
+      //this.colisionHandler(),
       () => {
         if (this.boss.canBeKilled) {
           this.boss.dead();
@@ -319,31 +321,6 @@ export default class ThirdScene extends Phaser.Scene {
       this.ship.x=500;
       this.ship.y=900;
       this.ship.alive=true;
-  }
-
-  //reconstituir scene
-  recreateScene1(){
-
-    //chamar os cometas que estavam na scene
-    Phaser.Actions.Call(this.comets.getChildren(), function(p) {
-      p.destroy();
-    });
-
-    //chamar os coraçoes que estavam na scene
-    Phaser.Actions.Call(this.lifes.getChildren(), function(p) {
-      p.destroy();
-    });
-
-    //chamar as estrelas que estavam na scene
-    Phaser.Actions.Call(this.stars.getChildren(), function(p) {
-      p.destroy();
-    });
-
-    //nave recomeça na posição inicial
-      this.addEvents();
-      this.createBoss();
-      this.boss.alive=true;   
-      this.boss.setGravityY(0);
   }
 
   //colisão entre bala e inimigo, destroi os dois
