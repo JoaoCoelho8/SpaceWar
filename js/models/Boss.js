@@ -3,24 +3,57 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite{
         super(scene,x,y,'boss');        
         this.scene=scene;
         this.alive=true;
-        this.setScale(0.3);
-        this.lives=500;
+        this.setScale(0.2);
+        this.lives=1000;
         this.canBeKilled = true;
         scene.add.existing(this);
         scene.physics.add.existing(this);
         scene.physics.world.enable(this);
-        this.setGravityY(0);        
+        this.setGravityY(0);  
+        this.flag=false   
+        this.setVelocityX(150);
+        this.timer= Math.floor(Math.random() * 400 + 100);
+        this.i=0
+        this.pararDescer=false
+        this.esquerda=false
     }
 
-    //mover o boss para a esquerda 
-    moveBossLeft(){
-      this.x--;
+    //mover o boss
+    move(){
+        if(this.i==this.timer){
+            if(this.y==240 && this.pararDescer==false){  
+                this.setVelocityX(0);
+                this.setVelocityY(700);
+            }
+            else if(this.y>995 && this.y<1005){
+                this.pararDescer=true;
+                this.setVelocityY(-300);
+            }
+            else if(this.y>237 && this.y<243 && this.pararDescer){
+                if(this.esquerda){
+                    this.setVelocityX(-150);
+                }else{
+                    this.setVelocityX(150);
+                }
+                this.setVelocityY(0);
+                this.pararDescer=false;
+                this.i=0;
+                this.timer = Math.floor(Math.random() * 400 + 100);
+                this.y=240;
+            }
+        }else{
+            this.y=240;
+            if(this.x > 149 && this.x < 151){
+                this.setVelocityX(150);  
+                this.esquerda=false  
+            } 
+            if(this.x > 849 && this.x < 851) {
+                this.setVelocityX(-150);
+                this.esquerda=true
+            }
+            this.i++
+        }
     }
-
-    //mover o boss para a esquerda 
-    moveBossRight(){
-        this.x++;
-      }
     
     dead() {
         let x = this.x;
@@ -28,39 +61,47 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite{
     }
 
     /**
-     * replace the boss on-screen, change the bird color (tint) and re-enable collisions
+     * change the color (tint) and re-enable collisions
      */
+    //nao irá ser usado
     revive() {
-
+        if(this.y>245){
+            this.canBeKilled=true;
+            this.tint = 0xFFFFFF
+            return;
+        }else{
+            this.canBeKilled = false;
+        }
+        
         let i = 0;
-        let repetition = 200
+        let repetition = 40
         let changeTint = true;
 
         /**
-         * timer to change the boss's color/tint 
+         * timer to change the bird's color/tint 
          */
         this.scene.time.addEvent({
             repeat: repetition,
             loop: false,
             callback: () => {
-
-                //in the last repetition replace the normal color (tint) and re-enables collision
-                if (i >= repetition) {
+                if(this.y>245){
+                    this.canBeKilled=true;
                     this.tint = 0xFFFFFF
-                    this.canBeKilled = true;
-                } else {
-
-                    if (changeTint) {
-                        this.tint = 0xFF0000
-                    } else {
+                    return;
+                }else{
+                    if(this.canBeKilled==false){
+                        //in the last repetition replace the normal color (tint) and re-enables collision
+                        if (i >= repetition) {
+                            this.tint = 0xFFFFFF
+                            this.canBeKilled = true;
+                        } else {
+                            this.tint = 0xFF0000
+                        }
+                        i++
+                    }else{
                         this.tint = 0xFFFFFF
                     }
-                    if (i % 20 == 0) {
-                        changeTint = !changeTint;
-                    }
-
                 }
-                i++
             }
         });
     }

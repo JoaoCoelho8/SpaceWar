@@ -27,7 +27,7 @@ export default class PauseThirdScene extends Phaser.Scene {
             align: "center",
 		});
 
-		this.add.text(350, 300, "Último nível", {
+		this.add.text(250, 300, "Último nível", {
             font: "100px Cambria",
             fill: "white",
             align: "center",

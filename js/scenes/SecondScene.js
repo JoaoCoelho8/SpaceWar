@@ -48,7 +48,7 @@ export default class SecondScene extends Phaser.Scene {
     });
 
     // passar de nivel
-    this.scoretowin = 300;
+    this.scoretowin = 1000;
    
     //adicionar imagens e sons
     this.load.image("background", "assets/background.png");
@@ -67,6 +67,8 @@ export default class SecondScene extends Phaser.Scene {
     this.lifes = new Lifes(this.physics.world,this,[]);
     this.stars = new Stars(this.physics.world,this,[]);
     
+    this.flag=false;
+
     this.song = this.sound.add("song", { volume: 0.4, loop: true });
     this.song.play();
 
@@ -98,8 +100,6 @@ export default class SecondScene extends Phaser.Scene {
 
     //fazer pausa 
     this.pause();
-
-    var flag = false;
 
     //se ainda tiver vidas, continua
     if (this.ship.lives > 0) {
@@ -160,18 +160,31 @@ export default class SecondScene extends Phaser.Scene {
     this.enemiesCollider=this.physics.add.overlap(
       this.ship.bullets,
       this.enemies,
-      //eliminar a bala e o inimigo
-      this.colisionHandler,
-      () => {
-        //.... score aumenta 10 pq matamos um inimigos
-        this.score+=10;
-        //.... atualiza o score
-        this.labelScore.setText(this.score);
-        //.... som de o inimigo eliminado
-        this.enemyDown.play();
+      (bullet, enemy) => {
+        if(bullet.scale>1){
+          this.enemies.killAndHide(enemy);
+          enemy.setY(-2000); enemy.setX(-2000); enemy.setVelocity(0, 0);
+          enemy.destroy();
+        }else {
+          this.enemies.killAndHide(enemy);
+          this.ship.bullets.killAndHide(bullet);
+          bullet.removeFromScreen();
+          enemy.setY(-2000); enemy.setX(-2000); enemy.setVelocity(0, 0);
+          enemy.destroy();
+        }
       },
-      null,
-      this
+      () => {
+        if(!this.flag){
+          this.flag=true;
+        }else{
+          //.... score aumenta 10 pq matamos um inimigos
+          this.score+=10;
+          //.... atualiza o score
+          this.labelScore.setText(this.score);
+          //.... som de o inimigo eliminado
+          this.enemyDown.play();
+        }
+      }
     );
 
     //se a nave colidir com os cometas ....
@@ -181,14 +194,25 @@ export default class SecondScene extends Phaser.Scene {
       //eliminar o cometa
       this.colisionHandler2,
       () => {
-        //para tudo
-        this.stopEvents();
-        //scene começa onde estava pq ainda tem vidas
-        this.recreateScene();
-        //perdemos uma vida
-        this.labelLives.setText(--this.ship.lives);
-        //começa som da nossa nave que foi atingida
-        this.dead.play();
+        if (this.ship.canBeKilled) {
+          this.ship.dead();
+          this.time.addEvent({
+              delay: 100,
+              callback: () => {
+                this.ship.revive();
+              }
+          });
+          //perde os poderes
+          this.ship.specialBullets=0;
+          //para tudo
+          this.stopEvents();
+          //scene começa onde estava pq ainda tem vidas
+          this.recreateScene();
+          //perdemos uma vida
+          this.labelLives.setText(--this.ship.lives);
+          //começa som da nossa nave que foi atingida
+          this.dead.play();
+        }
       },
       null,
       this
@@ -217,10 +241,18 @@ export default class SecondScene extends Phaser.Scene {
       //aquele estrela é destruida
       this.colisionHandler4,
       () => {
+        //adiciona 3x balas especiais
+        this.ship.setBullets(1);
+        this.time.addEvent({
+          delay: 100,
+          callback: () => {
+            this.ship.special();
+          }
+        });
         //coemça som da nave ter apanhado uma estrala
         this.catchupS.play();
         //aumenta score (+100)
-        this.score += 100;
+          //this.score += 100;
         //atualiza label score
         this.labelScore.setText(this.score);
       },
@@ -233,14 +265,25 @@ export default class SecondScene extends Phaser.Scene {
       this.ship,
       this.enemies,
       () => {
-        //para tudo
-        this.stopEvents();
-        //scene começa onde estava pq ainda tem vidas
-        this.recreateScene();
-        //perdemos uma vida
-        this.labelLives.setText(--this.ship.lives);
-        //começa som da nossa nave que foi atingida
-        this.dead.play();
+        if (this.ship.canBeKilled) {
+          this.ship.dead();
+          this.time.addEvent({
+              delay: 100,
+              callback: () => {
+                this.ship.revive();
+              }
+          });
+          //perde os poderes
+          this.ship.specialBullets=0;
+          //para tudo
+          this.stopEvents();
+          //scene começa onde estava pq ainda tem vidas
+          this.recreateScene();
+          //perdemos uma vida
+          this.labelLives.setText(--this.ship.lives);
+          //começa som da nossa nave que foi atingida
+          this.dead.play();
+        }
       },
       null,
       this
@@ -257,9 +300,9 @@ export default class SecondScene extends Phaser.Scene {
       repeat: -1
     });
 
-    //adiconar novos inimigos com delay de 350 - vao entrar de lado
+    //adiconar novos inimigos com delay de 1000 - vao entrar de lado
     this.timer2 = this.time.addEvent({
-      delay: 1000,
+      delay: 500,
       callback: this.enemies.addNewEnemy2,
       callbackScope: this,
       repeat: -1
@@ -267,7 +310,7 @@ export default class SecondScene extends Phaser.Scene {
 
     //adiconar novas vidas
     this.timer3 = this.time.addEvent({
-      delay: 10000,
+      delay: 8000,
       callback: this.lifes.addLife,
       callbackScope: this,
       repeat: -1
@@ -275,7 +318,7 @@ export default class SecondScene extends Phaser.Scene {
 
     //adiconar novos cometas com delay de 350
     this.timer4 = this.time.addEvent({
-      delay: 350,
+      delay: 400,
       callback: this.comets.addNewEnemy,
       callbackScope: this,
       repeat: -1
@@ -283,7 +326,7 @@ export default class SecondScene extends Phaser.Scene {
 
     //adicionar novas estrelas
     this.timer5 = this.time.addEvent({
-      delay: 4555,
+      delay: 12000,
       callback: this.stars.addStar,
       callbackScope: this,
       repeat: -1
@@ -339,7 +382,9 @@ export default class SecondScene extends Phaser.Scene {
  
   //colisão entre bala e inimigo, destroi os dois
   colisionHandler(bullet, enemy) {
+    bullet.setPosition(9999, 9999); bullet.setVelocity(0, 0);
     bullet.destroy();
+    enemy.setY(-2000); enemy.setX(-2000); enemy.setVelocity(0, 0);
     enemy.destroy();
   }
 
@@ -476,7 +521,7 @@ export default class SecondScene extends Phaser.Scene {
   //disparar 
   checkInputs(time) {
     this.ship.update(this.cursors);
-    if (Phaser.Input.Keyboard.JustDown(this.spaceBar)) {
+    if (Phaser.Input.Keyboard.JustDown(this.spaceBar) && this.flag) {
       //tempo do jogo será passado para o objeto nave
       this.ship.fire(time);
       this.shootS.play();

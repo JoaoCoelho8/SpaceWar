@@ -4,8 +4,8 @@ export default class Enemies extends Phaser.Physics.Arcade.Group {
         this.scene = scene;
         this.alive = true;
         this.drop = false;
-        this.x;
-        this.y;
+        this.x=123456;
+        this.y=123456;
        
     }
       //adicionar os inimigos - entrar de cima
@@ -14,7 +14,7 @@ export default class Enemies extends Phaser.Physics.Arcade.Group {
           this.x = 100*Math.floor(Math.random() * 10) + 10;
           if(this.x <=20) this.x = 20;
         } while (this.x > 1000); 
-        this.y = 23;
+        this.y = 0;
         var enemy=this.enemies.create(this.x,this.y,"enemy1");
         
         //https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.Sprite.html#setFrame__anchor
@@ -31,9 +31,7 @@ export default class Enemies extends Phaser.Physics.Arcade.Group {
           this.y = 100*Math.floor(Math.random() * 10) + 10;
           if(this.y <=20) this.y = 20;  
         } while (this.y > 1300);
-        this.opt = 0;
-        this.opt = (Math.random()  > 0.5 ? 0 : 1000);
-        this.x = this.opt;
+        this.x = 1000;
         var enemy=this.enemies.create(this.x,this.y,"enemy1");
         
         if(this.opt == 0){

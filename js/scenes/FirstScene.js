@@ -35,7 +35,7 @@ export default class FirstScene extends Phaser.Scene {
     });
 
     // score para passar de nivel
-    this.scoretowin = 100;
+    this.scoretowin = 500;
    
     //adicionar imagens e sons
     this.load.image("background", "assets/background.png");
@@ -51,6 +51,8 @@ export default class FirstScene extends Phaser.Scene {
     //https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.Group.html
     this.enemies = new Enemies(this.physics.world, this, []);
     this.comets = new Comets(this.physics.world,this,[]);
+
+    this.flag=false;
 
     this.song = this.sound.add("song", { volume: 0.4, loop: true });
     this.song.play();
@@ -84,8 +86,6 @@ export default class FirstScene extends Phaser.Scene {
 
     //fazer pausa 
     this.pause();
-
-    var flag = false;
     
     //se ainda tiver vidas, continua
     if (this.ship.lives > 0) {
@@ -145,18 +145,27 @@ export default class FirstScene extends Phaser.Scene {
     this.enemiesCollider=this.physics.add.overlap(
       this.ship.bullets,
       this.enemies,
-      //eliminar a bala e o inimigo
-      this.colisionHandler,
-      () => {
-        //.... score aumenta 10 pq matamos um inimigos
-        this.score+=10;
-        //.... atualiza o score
-        this.labelScore.setText(this.score);
-        //.... som de o inimigo eliminado
-        this.enemyDown.play();
+      (bullet, enemy) => {
+        this.enemies.killAndHide(enemy);
+        this.ship.bullets.killAndHide(bullet);
+        bullet.removeFromScreen();
+        bullet.destroy();
+        enemy.setY(-2000); enemy.setX(-2000); enemy.setVelocity(0, 0);
+        enemy.destroy();
       },
-      null,
-      this
+      () => {
+        if(!this.flag){
+          console.log("FLAG");
+          this.flag=true
+        }else{
+          //.... score aumenta 10 pq matamos um inimigos
+          this.score+=10;
+          //.... atualiza o score
+          this.labelScore.setText(this.score);
+          //.... som de o inimigo eliminado
+          this.enemyDown.play();
+        }
+      }
     );
 
     //se a nave colidir com os cometas ....
@@ -166,14 +175,24 @@ export default class FirstScene extends Phaser.Scene {
       //eliminar o cometa
       this.colisionHandler2,
       () => {
-        //para tudo
-        this.stopEvents();
-        //scene começa onde estava pq ainda tem vidas
-        this.recreateScene();
-        //perdemos uma vida
-        this.labelLives.setText(--this.ship.lives);
-        //começa som da nossa nave que foi atingida
-        this.dead.play();
+        if (this.ship.canBeKilled) {
+          this.ship.dead();
+          this.time.addEvent({
+              delay: 100,
+              callback: () => {
+                this.ship.revive();
+              }
+          });
+        
+          //para tudo
+          this.stopEvents();
+          //scene começa onde estava pq ainda tem vidas
+          this.recreateScene();
+          //perdemos uma vida
+          this.labelLives.setText(--this.ship.lives);
+          //começa som da nossa nave que foi atingida
+          this.dead.play();
+        }
       },
       null,
       this
@@ -184,14 +203,23 @@ export default class FirstScene extends Phaser.Scene {
       this.ship,
       this.enemies,
       () => {
-        //para tudo
-        this.stopEvents();
-        //scene começa onde estava pq ainda tem vidas
-        this.recreateScene();
-        //perdemos uma vida
-        this.labelLives.setText(--this.ship.lives);
-        //começa som da nossa nave que foi atingida
-        this.dead.play();
+        if (this.ship.canBeKilled) {
+          this.ship.dead();
+          this.time.addEvent({
+              delay: 100,
+              callback: () => {
+                this.ship.revive();
+              }
+          });
+          //para tudo
+          this.stopEvents();
+          //scene começa onde estava pq ainda tem vidas
+          this.recreateScene();
+          //perdemos uma vida
+          this.labelLives.setText(--this.ship.lives);
+          //começa som da nossa nave que foi atingida
+          this.dead.play();
+        }
       },
       null,
       this
@@ -255,7 +283,9 @@ export default class FirstScene extends Phaser.Scene {
 
   //colisão entre bala e inimigo, destroi os dois
   colisionHandler(bullet, enemy) {
+    bullet.removeFromScreen();
     bullet.destroy();
+    enemy.setY(-2000); enemy.setX(-2000); enemy.setVelocity(0, 0);
     enemy.destroy();
   }
 
@@ -382,7 +412,7 @@ export default class FirstScene extends Phaser.Scene {
   //disparar 
   checkInputs(time) {
     this.ship.update(this.cursors);
-    if (Phaser.Input.Keyboard.JustDown(this.spaceBar)) {
+    if (Phaser.Input.Keyboard.JustDown(this.spaceBar) && this.flag) {
       //tempo do jogo será passado para o objeto nave
       this.ship.fire(time);
       this.shootS.play();

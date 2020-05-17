@@ -27,7 +27,7 @@ export default class PauseSecondScene extends Phaser.Scene {
             align: "center",
 		});
 
-		this.add.text(350, 300, "Nível 1", {
+		this.add.text(350, 300, "Nível 2", {
             font: "100px Cambria",
             fill: "white",
             align: "center",

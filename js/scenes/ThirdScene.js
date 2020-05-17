@@ -4,7 +4,6 @@ import Comets from "../models/Comets.js";
 import Lifes from "../models/Lifes.js"
 import Stars from "../models/Stars.js";
 import Boss from "../models/boss.js";
-import Bullets from "../models/Bullets.js";
 
 export default class ThirdScene extends Phaser.Scene {
   constructor() {
@@ -54,9 +53,6 @@ export default class ThirdScene extends Phaser.Scene {
       frameWidth: 1331,
       frameHeight: 1463
     });
-
-    // ganhar o jogo tem de ter este score
-    this.scoretowin = 100;
    
     //adicionar imagens e sons
     this.load.image("background", "assets/background.png");
@@ -69,11 +65,7 @@ export default class ThirdScene extends Phaser.Scene {
   }
 
   create() {
-    //https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.Group.html
     this.comets = new Comets(this.physics.world,this,[]);
-    this.lifes = new Lifes(this.physics.world,this,[]);
-    this.stars = new Stars(this.physics.world,this,[]);
-
     this.composeGUI();
     this.createShip();
     this.createBoss();
@@ -93,6 +85,7 @@ export default class ThirdScene extends Phaser.Scene {
   //será usado aqui para marcar a duração entre dois tiros consecutivos
   //https://photonstorm.github.io/phaser3-docs/Phaser.Scene.html#update__anchor
   update(time,delta) {
+    this.song.resume();
 
     this.moveBoss();
 
@@ -104,8 +97,6 @@ export default class ThirdScene extends Phaser.Scene {
 
     //fazer pausa 
     this.pause();
-
-    var flag = false;
 
     //se ainda tiver vidas, continua
     if (this.ship.lives > 0) {
@@ -156,15 +147,14 @@ export default class ThirdScene extends Phaser.Scene {
     this.shootS.setVolume(0.10);
     this.enemyDown = this.sound.add("eDown");
     this.enemyDown.setVolume(0.25);
-    this.song = this.sound.add("song");
-    this.song.play();
     this.dead = this.sound.add("dead");
     this.dead.setVolume(0.25);
+    this.song = this.sound.add("song");
+    this.song.play();
   }
 
   //adicionar colisão
   addColisions() { 
-
     //se a nave colidir com os cometas ....
     this.enemiesCollider2=this.physics.add.overlap(
       this.ship,
@@ -172,114 +162,81 @@ export default class ThirdScene extends Phaser.Scene {
       //eliminar o cometa
       this.colisionHandler2,
       () => {
-        //para tudo
-        this.stopEvents();
-        //scene começa onde estava pq ainda tem vidas
-        this.recreateScene();
-        //perdemos uma vida
-        this.labelLives.setText(--this.ship.lives);
-        //começa som da nossa nave que foi atingida
-        this.dead.play();
+        if (this.ship.canBeKilled) {
+          this.ship.dead();
+          this.time.addEvent({
+              delay: 100,
+              callback: () => {
+                this.ship.revive();
+              }
+          });
+          //para tudo
+          this.stopEvents();
+          //scene começa onde estava pq ainda tem vidas
+          this.recreateScene();
+          //perdemos uma vida
+          this.labelLives.setText(--this.ship.lives);
+          //começa som da nossa nave que foi atingida
+          this.dead.play();
+        }
       },
       null,
       this
     );
 
-    // se a nava colidir com os coraçoes
-    this.enemiesCollider3=this.physics.add.overlap(
-      this.ship,
-      this.lifes,
-      //aquele coração é destruido
-      this.colisionHandler3,
-      () => {
-        //coemça som da nave ter apanhado uma vida
-        this.catchupS.play();
-        //aumenta as vidas (+1)
-        this.labelLives.setText(++this.ship.lives);
-      },
-      null,
-      this
-    );
-
-    // se a nava colidir com as estrelas
-    this.enemiesCollider4=this.physics.add.overlap(
-      this.ship,
-      this.stars,
-      //aquele estrela é destruida
-      this.colisionHandler4,
-      () => {
-        //coemça som da nave ter apanhado uma estrala
-        this.catchupS.play();
-        //aumenta score (+100)
-        this.score += 100;
-        //atualiza label score
-        this.labelScore.setText(this.score);
-      },
-      null,
-      this
-    ); 
-
-    //se balas colidirem com o boss ....
+    //se balas colidirem com inimigos ....
     this.enemiesCollider=this.physics.add.overlap(
       this.ship.bullets,
       this.boss,
-      //this.colisionHandler(),
-      () => {
+      (boss, bullet) => {
         if (this.boss.canBeKilled) {
-          this.boss.dead();
+          this.ship.bullets.killAndHide(bullet);
+          bullet.setX(-1000);
+          bullet.setVelocityX(0);
+          bullet.setVelocityY(0);
+          bullet.setVelocity(0, 0);
+          bullet.destroy();
           this.dead.play();
-          this.labelLivesBoss.setText(--this.boss.lives);
-          this.time.addEvent({
-            delay: 1000,
-            callback: () => {
-                this.boss.revive();
-            }
-        });
-    }
-  }); 
+          this.boss.lives=this.boss.lives-10;
+          this.labelLivesBoss.setText(this.boss.lives);
+        }
+      },
+    );
 
     //se a nave colidir com os inimigos ....
     this.physics.add.overlap(
       this.ship,
       this.boss,
       () => {
-        //para tudo
-        this.stopEvents();
-        //scene começa onde estava pq ainda tem vidas
-        this.recreateScene();
-        //perdemos uma vida
-        this.labelLives.setText(--this.ship.lives);
-        //começa som da nossa nave que foi atingida
-        this.dead.play();
+        if (this.ship.canBeKilled) {
+          this.ship.dead();
+          this.time.addEvent({
+              delay: 10,
+              callback: () => {
+                this.ship.revive();
+              }
+          });
+          //para tudo
+          this.stopEvents();
+          //scene começa onde estava pq ainda tem vidas
+          this.recreateScene();
+          //perdemos uma vida
+          this.labelLives.setText(--this.ship.lives);
+          //começa som da nossa nave que foi atingida
+          this.dead.play();
+        }
       },
       null,
       this
-    ); 
+    );  
   }
 
   //adicionar eventos
   addEvents(){
-
-    //adiconar novas vidas
-    this.timer3 = this.time.addEvent({
-      delay: 10000,
-      callback: this.lifes.addLife,
-      callbackScope: this,
-      repeat: -1
-    });
-
     //adiconar novos cometas com delay de 350
     this.timer4 = this.time.addEvent({
-      delay: 350,
+      delay: 450,
       callback: this.comets.addNewEnemy,
-      callbackScope: this,
-      repeat: -1
-    });
-
-    //adicionar novas estrelas
-    this.timer5 = this.time.addEvent({
-      delay: 4555,
-      callback: this.stars.addStar,
       callbackScope: this,
       repeat: -1
     });
@@ -295,9 +252,7 @@ export default class ThirdScene extends Phaser.Scene {
 
   //parar os eventos
   stopEvents(){
-    this.timer3.destroy();
     this.timer4.destroy();
-    this.timer5.destroy();
     this.timer6.destroy();
   }
 
@@ -306,16 +261,6 @@ export default class ThirdScene extends Phaser.Scene {
 
     //chamar os cometas que estavam na scene
     Phaser.Actions.Call(this.comets.getChildren(), function(p) {
-      p.destroy();
-    });
-
-    //chamar os coraçoes que estavam na scene
-    Phaser.Actions.Call(this.lifes.getChildren(), function(p) {
-      p.destroy();
-    });
-
-    //chamar as estrelas que estavam na scene
-    Phaser.Actions.Call(this.stars.getChildren(), function(p) {
       p.destroy();
     });
 
@@ -336,16 +281,6 @@ export default class ThirdScene extends Phaser.Scene {
     comet.destroy();
   }
 
-  //colisão entre nave e coraçao, destroi o coraçao
-  colisionHandler3(ship,life){
-    life.destroy();
-  }
-
-  //colisão entre nave e estrela, destroi o estrela
-  colisionHandler4(ship,star){
-    star.destroy();
-  }
-
   composeGUI() {
     //adicionar imagem fundo
     this.add.image(0, 0, "background").setOrigin(0, 0);
@@ -354,25 +289,7 @@ export default class ThirdScene extends Phaser.Scene {
     this.score = 0;
 
     //adicionar texto
-    this.highText = this.add.text(400, 10, "Level 3",{
-      font: "30px Cambria",
-      fill: "#ffffff"
-    });
-
-    //adicionar texto
-    this.highText = this.add.text(750, 10, "Highscore:",{
-      font: "30px Cambria",
-      fill: "#ffffff"
-    });
-
-    //adicionar texto
-    this.highScore1 = this.add.text(900,10, this.highScore,{
-      font: "30px Cambria",
-      fill: "#ffffff"
-    });
-
-    //adicionar texto
-    this.labelScore = this.add.text(750, 1150, 0, {
+    this.highText = this.add.text(440, 10, "Boss Level",{
       font: "30px Cambria",
       fill: "#ffffff"
     });
@@ -384,25 +301,19 @@ export default class ThirdScene extends Phaser.Scene {
     });
 
     //adicionar texto
-    this.labelLivesBoss = this.add.text(550 , 1150, 100, {
+    this.labelLivesBoss = this.add.text(650 , 1150, 1000, {
       font: "30px Cambria",
       fill: "#ffffff"
     });
 
     //adicionar texto
-    this.scText = this.add.text(650, 1150, "Score:",{
+    this.scText = this.add.text(850, 1150, "Lives:",{
       font: "30px Cambria",
       fill: "#ffffff"
     });
 
     //adicionar texto
-    this.lvText = this.add.text(830, 1150, "Lives:",{
-      font: "30px Cambria",
-      fill: "#ffffff"
-    });
-
-    //adicionar texto
-    this.lvText = this.add.text(400, 1150, "Boss Lives:",{
+    this.lvText = this.add.text(500, 1150, "Boss Lives:",{
       font: "30px Cambria",
       fill: "#ffffff"
     });
@@ -418,7 +329,7 @@ export default class ThirdScene extends Phaser.Scene {
   //criar boss
   createBoss() {
     //posição onde a boss vai começar
-    this.boss = new Boss(this, 500, 500);
+    this.boss = new Boss(this, 500, 240);
     this.boss.setSize(1331,1463,true);
     this.boss.alive=true;
     this.boss.setGravityY(0);
@@ -516,6 +427,7 @@ export default class ThirdScene extends Phaser.Scene {
     if(Phaser.Input.Keyboard.JustDown(this.pauseKey)){
       this.scene.launch('PauseThirdScene');
       this.scene.pause();
+      this.song.pause();
     }
   }
 
@@ -565,9 +477,7 @@ export default class ThirdScene extends Phaser.Scene {
 
   //mover o boss para a esquerda e depois para a direita
   moveBoss(){
-    if(this.boss.x >=200){
-      this.boss.moveBossLeft();
-    } 
+    this.boss.move();
   }
 
   //começar som

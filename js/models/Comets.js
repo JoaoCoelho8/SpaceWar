@@ -22,7 +22,7 @@ export default class Comets extends Phaser.Physics.Arcade.Group {
         //vem do lado direito
         if(this.isRight){
           var enemy=this.comets.create(this.x,this.y,"comet1");
-          var randomVY = Math.random() * 300 + 150;
+          var randomVY = Math.random() * 350 + 200;
           var randomVX = Math.random() * 300 + 100;
           enemy.setVelocityX(randomVX);
           enemy.setVelocityY(randomVY);
