@@ -13,15 +13,25 @@ export default class WinScene extends Phaser.Scene {
 		this.load.image("backgroundnext", "assets/background.png");
 
 		// carregar som fundo
-		this.load.audio("background-music", "assets/sounds/Menu-music.mp3");
+		this.load.audio("backgroundwin", "assets/victory.mp3");
+
+		this.load.image("fogo", "assets/fogo.png", {
+			frameWidth: 400,
+			frameHeight: 400
+		  });
 	}
  
 	create() {
 		//adicionar a imagem de fundo
 		this.add.image(500, 600,'backgroundnext');
 
+		this.add.image(250, 850, 'fogo');
+		this.add.image(700, 1000, 'fogo');
+		this.add.image(700, 300, 'fogo');
+
 		//adicionar o som de fundo
-		this.backgroundSound = this.sound.add("background-music", { volume: 0.4, loop: true });
+		this.backgroundSound = this.sound.add("backgroundwin", { volume: 0.7, loop: true });
+		this.backgroundSound.play();
 		
 		//space vai ser usado para avançar para o nivel seguinte
 		this.space_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
@@ -31,7 +41,7 @@ export default class WinScene extends Phaser.Scene {
 		this.songdown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
 		//adicionar texto
-        this.add.text(130, 550, "Congratulations! You Win The Game!!!", {
+        this.add.text(270, 500, "Congratulations!!!\n You Won The Game!!!\n You Saved Our Planet!!!", {
             font: "50px Cambria",
             fill: "white",
             align: "center",

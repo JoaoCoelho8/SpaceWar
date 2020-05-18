@@ -48,7 +48,7 @@ export default class ThirdScene extends Phaser.Scene {
       frameHeight: 300
     });
 
-    //adicionar vidas
+    //adicionar boss
     this.load.spritesheet("boss", "assets/boss.png", {
       frameWidth: 1331,
       frameHeight: 1463
