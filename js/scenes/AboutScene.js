@@ -21,6 +21,10 @@ export default class AboutScene extends Phaser.Scene {
 		
         //space vai ser usado para sair do menu about
 		this.space_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+		//tecla para aumentar som
+		this.songup = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+		//tecla para diminuir som
+		this.songdown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 		
 		//adicionar texto
         this.labelPlayNum = this.add.text(170, 60, "Saving Planet Earth", {
@@ -66,6 +70,10 @@ export default class AboutScene extends Phaser.Scene {
     }
     
     update() {
+
+		this.songUp();
+		this.songDown();
+
 		//quando clicar no space volta para o menu inicial
 		if (this.space_key.isDown) {
 			this.space_key.isDown=false;
@@ -74,4 +82,20 @@ export default class AboutScene extends Phaser.Scene {
 			this.scene.start('MenuScene');
 		}
 	}
+
+	songUp(){
+		if(Phaser.Input.Keyboard.JustDown(this.songup)){
+		  this.backgroundSound.setVolume(this.backgroundSound.volume+0.08);
+		}
+	  }
+	
+	  songDown(){
+		if(Phaser.Input.Keyboard.JustDown(this.songdown)){
+		  if((this.backgroundSound.volume-0.08)>0){
+			this.backgroundSound.setVolume(this.backgroundSound.volume-0.08);
+		  }else{
+			this.backgroundSound.setVolume(0)
+		  }
+		}
+	  }
 }

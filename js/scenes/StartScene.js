@@ -22,6 +22,10 @@ export default class StartScene extends Phaser.Scene {
 
 		//space vai ser usado para avançar para o menu
 		this.space_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+		//tecla para aumentar som
+		this.songup = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+		//tecla para diminuir som
+		this.songdown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
 		//adicionar texto
 		var string = '  Tudo o que nós pensávamos saber sobre o mundo,\n             o espaço, a galáxia, acabou de mudar.\n Estão a dirigir-se para o nosso planeta um exercício\n alienista, com o objetivo de o dizimar por completo.\n        Foi enviada para o espaço, uma nave, onde tu\n           nos podes ajudar a salvar o nosso planeta.\n              Boa sorte, és a nossa última esperança,\n                      estamos todos a torcer por ti!!\n';
@@ -46,6 +50,10 @@ export default class StartScene extends Phaser.Scene {
 	}
 
 	update() {
+
+		this.songUp();
+		this.songDown();
+
 		//quando clicar no space avança para o menu
 		if (this.space_key.isDown) {
 			this.space_key.isDown=false;
@@ -54,4 +62,20 @@ export default class StartScene extends Phaser.Scene {
 			this.scene.start('MenuScene');
 		}
 	}
+
+	songUp(){
+		if(Phaser.Input.Keyboard.JustDown(this.songup)){
+		  this.backgroundSound.setVolume(this.backgroundSound.volume+0.08);
+		}
+	  }
+	
+	  songDown(){
+		if(Phaser.Input.Keyboard.JustDown(this.songdown)){
+		  if((this.backgroundSound.volume-0.08)>0){
+			this.backgroundSound.setVolume(this.backgroundSound.volume-0.08);
+		  }else{
+			this.backgroundSound.setVolume(0)
+		  }
+		}
+	  }
 }

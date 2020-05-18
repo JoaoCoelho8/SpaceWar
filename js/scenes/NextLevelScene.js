@@ -25,7 +25,11 @@ export default class NextLevelScene extends Phaser.Scene {
 		this.backgroundSound.play();
 		
 		//space vai ser usado para avançar para o nivel seguinte
-        this.enterkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+		this.enterkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+		//tecla para aumentar som
+		this.songup = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+		//tecla para diminuir som
+		this.songdown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
 		//adicionar texto
         this.add.text(80, 450, "Good job!\nBut we are not yet free from danger!\nBeware\n\n\n Press ENTER To Go To The Next Level!", {
@@ -36,10 +40,30 @@ export default class NextLevelScene extends Phaser.Scene {
     }
     
     update() {
+
+		this.songUp();
+		this.songDown();
+
 		//quando clicar no space começa o nivel seguinte
 		if (this.enterkey.isDown) {
 			this.backgroundSound.stop();
 			this.scene.start('SecondScene');
 		}
 	}
+
+	songUp(){
+		if(Phaser.Input.Keyboard.JustDown(this.songup)){
+		  this.backgroundSound.setVolume(this.backgroundSound.volume+0.08);
+		}
+	  }
+	
+	  songDown(){
+		if(Phaser.Input.Keyboard.JustDown(this.songdown)){
+		  if((this.backgroundSound.volume-0.08)>0){
+			this.backgroundSound.setVolume(this.backgroundSound.volume-0.08);
+		  }else{
+			this.backgroundSound.setVolume(0)
+		  }
+		}
+	  }
 }

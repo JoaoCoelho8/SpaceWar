@@ -31,6 +31,10 @@ export default class LevelScene extends Phaser.Scene {
 		this.three_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE);
 		//space vai ser usado para sair do menu help
 		this.space_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+		//tecla para aumentar som
+		this.songup = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+		//tecla para diminuir som
+		this.songdown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
 		//adicionar texto
 		this.labelPlayNum = this.add.text(170, 60, "Saving Planet Earth", {
@@ -71,6 +75,10 @@ export default class LevelScene extends Phaser.Scene {
 
 
 	update() {
+
+		this.songUp();
+		this.songDown();
+
 		//quando clicar na tecla 1 começa nivel 1
 		if (this.one_key.isDown) {
 			this.one_key.isDown=false;
@@ -103,4 +111,20 @@ export default class LevelScene extends Phaser.Scene {
 			this.scene.start('MenuScene');
 		}
 	}
+
+	songUp(){
+		if(Phaser.Input.Keyboard.JustDown(this.songup)){
+		  this.backgroundSound.setVolume(this.backgroundSound.volume+0.08);
+		}
+	  }
+	
+	  songDown(){
+		if(Phaser.Input.Keyboard.JustDown(this.songdown)){
+		  if((this.backgroundSound.volume-0.08)>0){
+			this.backgroundSound.setVolume(this.backgroundSound.volume-0.08);
+		  }else{
+			this.backgroundSound.setVolume(0)
+		  }
+		}
+	  }
 }

@@ -25,7 +25,11 @@ export default class SecondNextLevelScene extends Phaser.Scene {
 		this.backgroundSound.play();
 		
 		//space vai ser usado para avançar para o nivel seguinte
-        this.enterkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+		this.enterkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+		//tecla para aumentar som
+		this.songup = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+		//tecla para diminuir som
+		this.songdown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
 		//adicionar texto
         this.add.text(70, 450, "Oh no, their master is coming!\nIt is time for the final battle!\nMay the force be with you\n\n\n Press ENTER To Go To The Final Battle!", {
@@ -36,10 +40,30 @@ export default class SecondNextLevelScene extends Phaser.Scene {
     }
     
     update() {
+
+		this.songUp();
+		this.songDown();
+
 		//quando clicar no space começa o nivel seguinte
 		if (this.enterkey.isDown) {
 			this.backgroundSound.stop();
 			this.scene.start('ThirdScene');
 		}
 	}
+
+	songUp(){
+		if(Phaser.Input.Keyboard.JustDown(this.songup)){
+		  this.backgroundSound.setVolume(this.backgroundSound.volume+0.08);
+		}
+	  }
+	
+	  songDown(){
+		if(Phaser.Input.Keyboard.JustDown(this.songdown)){
+		  if((this.backgroundSound.volume-0.08)>0){
+			this.backgroundSound.setVolume(this.backgroundSound.volume-0.08);
+		  }else{
+			this.backgroundSound.setVolume(0)
+		  }
+		}
+	  }
 }

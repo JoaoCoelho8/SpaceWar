@@ -26,6 +26,10 @@ export default class HelpScene extends Phaser.Scene {
 		
 		//space vai ser usado para sair do menu help
 		this.space_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+		//tecla para aumentar som
+		this.songup = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+		//tecla para diminuir som
+		this.songdown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 		
 		//texto a aparecer no menu help 
 		var string = 'Space - shoot\nKeyboard arrows - move\nESC - pause\nW - increase volume\nD - decrease volume\n\nStars - will increase your score\nHearth - will increase your life\n\nYou need score of 1000 to go from level 1 to level 2\nYou need score of 3000 to go from level 2 to level 3\nYou need to defeat the boss to win the game';
@@ -56,6 +60,10 @@ export default class HelpScene extends Phaser.Scene {
     }
     
     update() {
+
+		this.songUp();
+		this.songDown();
+
 		//quando clicar no space volta para o menu inicial
 		if (this.space_key.isDown) {
 			this.space_key.isDown=false;
@@ -64,5 +72,21 @@ export default class HelpScene extends Phaser.Scene {
 			this.scene.start('MenuScene');
 		}
 	}
+
+	songUp(){
+		if(Phaser.Input.Keyboard.JustDown(this.songup)){
+		  this.backgroundSound.setVolume(this.backgroundSound.volume+0.08);
+		}
+	  }
+	
+	  songDown(){
+		if(Phaser.Input.Keyboard.JustDown(this.songdown)){
+		  if((this.backgroundSound.volume-0.08)>0){
+			this.backgroundSound.setVolume(this.backgroundSound.volume-0.08);
+		  }else{
+			this.backgroundSound.setVolume(0)
+		  }
+		}
+	  }
 
 }
