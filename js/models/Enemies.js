@@ -31,7 +31,9 @@ export default class Enemies extends Phaser.Physics.Arcade.Group {
           this.y = 100*Math.floor(Math.random() * 10) + 10;
           if(this.y <=20) this.y = 20;  
         } while (this.y > 1300);
-        this.x = 1000;
+        this.opt = 0;
+        this.opt = (Math.random()  > 0.5 ? 0 : 1000);
+        this.x = this.opt;
         var enemy=this.enemies.create(this.x,this.y,"enemy1");
         
         if(this.opt == 0){
