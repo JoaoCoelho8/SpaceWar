@@ -41,7 +41,7 @@ export default class WinScene extends Phaser.Scene {
 		this.songdown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
 		//adicionar texto
-        this.add.text(270, 500, "Congratulations!!!\n You Won The Game!!!\n You Saved Our Planet!!!", {
+        this.add.text(250, 500, "Congratulations!!!\n You Won The Game!!!\n You Saved Our Planet!!!", {
             font: "50px Cambria",
             fill: "white",
             align: "center",

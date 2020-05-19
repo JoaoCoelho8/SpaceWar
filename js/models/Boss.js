@@ -1,6 +1,6 @@
 export default class Boss extends Phaser.Physics.Arcade.Sprite{
     constructor(scene,x,y){
-        super(scene,x,y,'boss');        
+        super(scene,x,y,'boss'); 
         this.scene=scene;
         this.alive=true;
         this.setScale(0.2);
@@ -21,7 +21,7 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite{
     //mover o boss
     move(){
         if(this.i==this.timer){
-            if(this.y==240 && this.pararDescer==false){  
+            if(this.y==300 && this.pararDescer==false){  
                 this.setVelocityX(0);
                 this.setVelocityY(700);
             }
@@ -29,7 +29,7 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite{
                 this.pararDescer=true;
                 this.setVelocityY(-300);
             }
-            else if(this.y>237 && this.y<243 && this.pararDescer){
+            else if(this.y>295 && this.y<305 && this.pararDescer){
                 if(this.esquerda){
                     this.setVelocityX(-150);
                 }else{
@@ -39,10 +39,10 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite{
                 this.pararDescer=false;
                 this.i=0;
                 this.timer = Math.floor(Math.random() * 400 + 100);
-                this.y=240;
+                this.y=300;
             }
         }else{
-            this.y=240;
+            this.y=300;
             if(this.x > 149 && this.x < 151){
                 this.setVelocityX(150);  
                 this.esquerda=false  
@@ -65,7 +65,7 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite{
      */
     //nao irá ser usado
     revive() {
-        if(this.y>245){
+        if(this.y>305){
             this.canBeKilled=true;
             this.tint = 0xFFFFFF
             return;
@@ -84,7 +84,7 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite{
             repeat: repetition,
             loop: false,
             callback: () => {
-                if(this.y>245){
+                if(this.y>305){
                     this.canBeKilled=true;
                     this.tint = 0xFFFFFF
                     return;

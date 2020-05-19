@@ -27,8 +27,6 @@ export default class Ship extends Phaser.Physics.Arcade.Sprite{
     }
     //fire a bullet
     fire(time){
-        console.log(this.specialBullets);
-        
         if(this.specialBullets>0){
             if(time > this.nextTick) {
                 var bullet = this.bullets.get();

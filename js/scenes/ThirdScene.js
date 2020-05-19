@@ -1,8 +1,5 @@
 import Ship from "../models/Ship.js";
-import Enemies from "../models/Enemies.js";
 import Comets from "../models/Comets.js";
-import Lifes from "../models/Lifes.js"
-import Stars from "../models/Stars.js";
 import Boss from "../models/boss.js";
 
 export default class ThirdScene extends Phaser.Scene {
@@ -55,6 +52,8 @@ export default class ThirdScene extends Phaser.Scene {
     });
    
     //adicionar imagens e sons
+    this.load.image("energycontainer", "assets/energycontainer.png");
+    this.load.image("energybar", "assets/energybar.png");
     this.load.image("background", "assets/background.png");
     this.load.image("bullet", "assets/bullet.png");
     this.load.audio("catchup", "assets/catchup.wav");
@@ -66,6 +65,7 @@ export default class ThirdScene extends Phaser.Scene {
 
   create() {
     this.comets = new Comets(this.physics.world,this,[]);
+    this.nextTick = 0;
     this.composeGUI();
     this.createShip();
     this.createBoss();
@@ -79,6 +79,23 @@ export default class ThirdScene extends Phaser.Scene {
     this.addEvents();
     this.addColisions();
     this.moveBoss();
+    
+    // the energy container. A simple sprite
+    let energyContainer = this.add.sprite(this.scale.width / 2, this.scale.height / 13, "energycontainer");
+
+    // the energy bar. Another simple sprite
+    let energyBar = this.add.sprite(energyContainer.x, energyContainer.y, "energybar");
+
+    // a copy of the energy bar to be used as a mask. Another simple sprite but...
+    this.energyMask = this.add.sprite(energyBar.x, energyBar.y, "energybar");
+
+    // ...it's not visible...
+    this.energyMask.visible = false;
+
+    // and we assign it as energyBar's mask.
+    energyBar.mask = new Phaser.Display.Masks.BitmapMask(this, this.energyMask);
+
+    this.stepWidth = this.energyMask.displayWidth / 100;  //100 vem de boss.lives/bullet damage <=> 1000/10=100
   }
 
   //função update pode ter como parametros o tempo do jogo e a variação em milisegundos entre as frames
@@ -150,6 +167,7 @@ export default class ThirdScene extends Phaser.Scene {
     this.dead = this.sound.add("dead");
     this.dead.setVolume(0.25);
     this.song = this.sound.add("song");
+    this.song.setVolume(0.4);
     this.song.play();
   }
 
@@ -198,7 +216,8 @@ export default class ThirdScene extends Phaser.Scene {
           bullet.destroy();
           this.dead.play();
           this.boss.lives=this.boss.lives-10;
-          this.labelLivesBoss.setText(this.boss.lives);
+          this.energyMask.x -= this.stepWidth;
+          //this.labelLivesBoss.setText(this.boss.lives);
         }
       },
     );
@@ -235,7 +254,7 @@ export default class ThirdScene extends Phaser.Scene {
   addEvents(){
     //adiconar novos cometas com delay de 350
     this.timer4 = this.time.addEvent({
-      delay: 450,
+      delay: 400,
       callback: this.comets.addNewEnemy,
       callbackScope: this,
       repeat: -1
@@ -289,9 +308,9 @@ export default class ThirdScene extends Phaser.Scene {
     this.score = 0;
 
     //adicionar texto
-    this.highText = this.add.text(440, 10, "Boss Level",{
-      font: "30px Cambria",
-      fill: "#ffffff"
+    this.highText = this.add.text((this.scale.width/2)-50, 0, "Boss",{
+      font: "50px Impact",
+      fill: "#d7911d"
     });
 
     //adicionar texto
@@ -301,10 +320,10 @@ export default class ThirdScene extends Phaser.Scene {
     });
 
     //adicionar texto
-    this.labelLivesBoss = this.add.text(650 , 1150, 1000, {
+    /*this.labelLivesBoss = this.add.text(650 , 1150, 1000, {
       font: "30px Cambria",
       fill: "#ffffff"
-    });
+    });*/
 
     //adicionar texto
     this.scText = this.add.text(850, 1150, "Lives:",{
@@ -313,10 +332,10 @@ export default class ThirdScene extends Phaser.Scene {
     });
 
     //adicionar texto
-    this.lvText = this.add.text(500, 1150, "Boss Lives:",{
+    /*this.lvText = this.add.text(500, 1150, "Boss Lives:",{
       font: "30px Cambria",
       fill: "#ffffff"
-    });
+    });*/
   }
 
   //criar a nave
@@ -329,7 +348,7 @@ export default class ThirdScene extends Phaser.Scene {
   //criar boss
   createBoss() {
     //posição onde a boss vai começar
-    this.boss = new Boss(this, 500, 240);
+    this.boss = new Boss(this, 500, 300);
     this.boss.setSize(1331,1463,true);
     this.boss.alive=true;
     this.boss.setGravityY(0);
@@ -397,9 +416,13 @@ export default class ThirdScene extends Phaser.Scene {
   checkInputs(time) {
     this.ship.update(this.cursors);
     if (Phaser.Input.Keyboard.JustDown(this.spaceBar)) {
-      //tempo do jogo será passado para o objeto nave
-      this.ship.fire(time);
-      this.shootS.play();
+      if(time > this.nextTick) {
+        //tempo do jogo será passado para o objeto nave
+        this.ship.fire(time);
+        this.shootS.play();
+        var tickFreq=300;
+        this.nextTick = time + tickFreq;
+      }
     }
   }
 
