@@ -155,7 +155,6 @@ export default class FirstScene extends Phaser.Scene {
       },
       () => {
         if(!this.flag){
-          console.log("FLAG");
           this.flag=true
         }else{
           //.... score aumenta 10 pq matamos um inimigos
@@ -302,7 +301,7 @@ export default class FirstScene extends Phaser.Scene {
     this.score = 0;
 
     //adicionar texto
-    this.highText = this.add.text(400, 10, "Level 1",{
+    this.highText = this.add.text((this.scale.width/2)-30, 10, "Level 1",{
       font: "30px Cambria",
       fill: "#ffffff"
     });

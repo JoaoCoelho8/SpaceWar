@@ -38,7 +38,7 @@ export default class PauseThirdScene extends Phaser.Scene {
             align: "center",
 		});
 
-		this.add.text(250, 300, "Boss level", {
+		this.add.text((this.scale.width/2)-200, 300, "Boss level", {
             font: "100px Cambria",
             fill: "white",
             align: "center",

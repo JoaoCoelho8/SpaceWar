@@ -52,7 +52,7 @@ export default class StartScene extends Phaser.Scene {
 		});
 
 		//adicionar texto
-        this.labelPlayNum2 = this.add.text (350, 900, "Press SPACE to start", {
+        this.labelPlayNum2 = this.add.text (330, 900, "Press SPACE to start", {
 			font: "40px Cambria",
 			fill: "white"
 		});

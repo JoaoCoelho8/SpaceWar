@@ -411,7 +411,7 @@ export default class SecondScene extends Phaser.Scene {
     this.score = 0;
 
     //adicionar texto
-    this.highText = this.add.text(400, 10, "Level 2",{
+    this.highText = this.add.text((this.scale.width/2)-30, 10, "Level 2",{
       font: "30px Cambria",
       fill: "#ffffff"
     });

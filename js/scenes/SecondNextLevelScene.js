@@ -32,20 +32,44 @@ export default class SecondNextLevelScene extends Phaser.Scene {
 		this.songdown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
 		//adicionar texto
-        this.add.text(70, 450, "Oh no, their master is coming!\nIt is time for the final battle!\nMay the force be with you\n\n\n Press ENTER To Go To The Final Battle!", {
+        this.add.text(83, 400, "Oh no, their master is coming!\nBe careful, your ship has some damage\n and its fire rate has decreased\n\nIt is time for the final battle!\nMay the force be with you", {
             font: "50px Cambria",
             fill: "white",
             align: "center",
 		});
+
+		//adicionar texto
+        this.labelPlayNum2 = this.add.text (70, 850, " Press ENTER To Go To The Final Battle!", {
+			font: "50px Cambria",
+			fill: "white"
+		});
+		this.i=0
+		this.flag=true
+		this.goToMenu=false
+		this.divider=25
     }
     
-    update() {
+    update(time) {
+		if (time) {
+			
+			if (this.flag) {
+				this.labelPlayNum2.setVisible(true);
+			} else {
+				this.labelPlayNum2.setVisible(false);
+			}
+			if (this.i % this.divider == 0) {
+				this.flag = !this.flag;
+			}
+
+		}
+		this.i++
 
 		this.songUp();
 		this.songDown();
 
 		//quando clicar no space começa o nivel seguinte
 		if (this.enterkey.isDown) {
+			this.labelPlayNum2.destroy();
 			this.backgroundSound.stop();
 			this.scene.start('ThirdScene');
 		}

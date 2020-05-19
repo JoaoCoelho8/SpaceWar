@@ -38,7 +38,7 @@ export default class PauseFirstScene extends Phaser.Scene {
             align: "center",
 		});
 
-		this.add.text(350, 300, "Level 1", {
+		this.add.text((this.scale.width/2)-130, 300, "Level 1", {
             font: "100px Cambria",
             fill: "white",
             align: "center",

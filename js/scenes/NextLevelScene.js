@@ -32,20 +32,44 @@ export default class NextLevelScene extends Phaser.Scene {
 		this.songdown = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
 		//adicionar texto
-        this.add.text(80, 450, "Good job!\nBut we are not yet free from danger!\nBeware\n\n\n Press ENTER To Go To The Next Level!", {
+        this.add.text(115, 450, "Good job!\nBut we are not yet free from danger!\nBeware", {
             font: "50px Cambria",
             fill: "white",
             align: "center",
 		});
+
+		//adicionar texto
+        this.labelPlayNum2 = this.add.text (79, 750, " Press ENTER To Go To The Next Level!", {
+			font: "50px Cambria",
+			fill: "white"
+		});
+		this.i=0
+		this.flag=true
+		this.goToMenu=false
+		this.divider=25
     }
     
-    update() {
+    update(time) {
+		if (time) {
+			
+			if (this.flag) {
+				this.labelPlayNum2.setVisible(true);
+			} else {
+				this.labelPlayNum2.setVisible(false);
+			}
+			if (this.i % this.divider == 0) {
+				this.flag = !this.flag;
+			}
+
+		}
+		this.i++
 
 		this.songUp();
 		this.songDown();
 
 		//quando clicar no space começa o nivel seguinte
 		if (this.enterkey.isDown) {
+			this.labelPlayNum2.destroy();
 			this.backgroundSound.stop();
 			this.scene.start('SecondScene');
 		}
