@@ -55,7 +55,10 @@ export default class WinScene extends Phaser.Scene {
 
 		//quando clicar no space começa o nivel seguinte
 		if (this.space_key.isDown) {
-			this.scene.start('MenuScene');
+			this.space_key.isDown=false;
+			this.backgroundSound.stop();
+			this.scene.stop();
+			this.scene.start('MenuFinalScene');
 		}
 	}
 

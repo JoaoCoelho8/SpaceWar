@@ -108,7 +108,7 @@ export default class LevelScene extends Phaser.Scene {
 			this.space_key.isDown=false;
 			this.scene.stop();
 			this.backgroundSound.stop();
-			this.scene.start('MenuScene');
+			this.scene.start('MenuFinalScene');
 		}
 	}
 

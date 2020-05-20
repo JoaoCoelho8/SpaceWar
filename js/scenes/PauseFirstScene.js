@@ -60,11 +60,19 @@ export default class PauseFirstScene extends Phaser.Scene {
 
 		//ir para menu
 		if (this.enterKey.isDown) {
-			this.enterKey.isDown=false;
-			this.backgroundSound.stop();
-			this.scene.stop();
-			this.scene.stop('FirstScene');  
-			this.scene.start('MenuScene') 
+			if (localStorage.getItem("complete") == 3) {
+				this.enterKey.isDown=false;
+				this.backgroundSound.stop();
+				this.scene.stop();
+				this.scene.stop('FirstScene'); 
+				this.scene.start('MenuFinalScene');
+			} else {
+				this.enterKey.isDown=false;
+				this.backgroundSound.stop();
+				this.scene.stop();
+				this.scene.stop('FirstScene'); 
+				this.scene.start('MenuScene');
+			}
 		}
 	}
 

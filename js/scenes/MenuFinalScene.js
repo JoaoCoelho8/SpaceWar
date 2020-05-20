@@ -1,11 +1,11 @@
-export default class MenuScene extends Phaser.Scene {
+export default class MenuFinalScene extends Phaser.Scene {
 	constructor() {
-		super("MenuScene");
+		super("MenuFinalScene");
 	}
 
 	preload() {
 		//carregar imagem fundo menu 
-		this.load.image("background-menu", "assets/background-menu.png");
+		this.load.image("background-menu-final", "assets/background-menu-final.png");
 
 		//carregar imagem fundo menu 
 		this.load.audio("background-music3", "assets/sounds/Menu-music.mp3");
@@ -13,7 +13,7 @@ export default class MenuScene extends Phaser.Scene {
 
 	create() {
 		//adicionar imagem fundo menu
-		this.add.image(500, 600, 'background-menu');
+		this.add.image(500, 600, 'background-menu-final');
 
 		//adicionar som fundo 
 		this.backgroundSound3 = this.sound.add("background-music3", {  loop: true });
@@ -26,6 +26,8 @@ export default class MenuScene extends Phaser.Scene {
 		this.two_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO);
 		//telca com numero 3 vai ser usada para aceder ao menu help
 		this.three_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE);
+		//telca com numero 3 vai ser usada para aceder ao menu about
+		this.four_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR);
 		//tecla para aumentar som
 		this.songup = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 		//tecla para diminuir som
@@ -62,7 +64,7 @@ export default class MenuScene extends Phaser.Scene {
 		});
 
 		//adicionar texto
-		this.labelPlay = this.add.text(480, 680, "Help", {
+		this.labelPlay = this.add.text(480, 680, "Levels", {
 			font: "37px Cambria",
 			fill: "white"
 		});
@@ -74,7 +76,19 @@ export default class MenuScene extends Phaser.Scene {
 		});
 
 		//adicionar texto
-		this.labelLevels = this.add.text(500, 790, "About", {
+		this.labelLevels = this.add.text(500, 790, "Help", {
+			font: "37px Cambria",
+			fill: "white"
+		});
+
+		//adicionar texto
+		this.labelLevelsNum = this.add.text(250, 900, "4", {
+			font: "37px Cambria",
+			fill: "white"
+		});
+
+		//adicionar texto
+		this.labelLevels = this.add.text(480, 900, "About", {
 			font: "37px Cambria",
 			fill: "white"
 		});
@@ -109,9 +123,18 @@ export default class MenuScene extends Phaser.Scene {
 			}
 		}
 
-		//quando clicar na tecla 3, entra no menu help
+		//quando clicar na tecla 2, entra no menu levels
 		if (this.two_key.isDown) {
 			this.two_key.isDown=false;
+			this.backgroundSound3.stop();
+			this.scene.stop();
+			this.scene.start('LevelScene');
+
+		}
+
+		//quando clicar na tecla 3, entra no menu help
+		if (this.three_key.isDown) {
+			this.three_key.isDown=false;
 			this.backgroundSound3.stop();
 			this.scene.stop();
 			this.scene.start('HelpScene');
@@ -119,8 +142,8 @@ export default class MenuScene extends Phaser.Scene {
 		}
 
 		//quando clicar na tecla 4, entra no menu about
-		if (this.three_key.isDown) {
-			this.three_key.isDown=false;
+		if (this.four_key.isDown) {
+			this.four_key.isDown=false;
 			this.backgroundSound3.stop();
 			this.scene.stop();
 			this.scene.start('AboutScene');

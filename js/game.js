@@ -13,13 +13,14 @@ import PauseFirstScene from './scenes/PauseFirstScene.js';
 import PauseSecondScene from './scenes/PauseSecondScene.js';
 import PauseThirdScene from './scenes/PauseThirdScene.js';
 import WinScene from './scenes/WinScene.js';
+import MenuFinalScene from './scenes/MenuFinalScene.js'
 
 var game;
 window.onload = function() {    
     var gameConfig = {
         width: 1000,
         height: 1200,        
-        scene: [StartScene, MenuScene, LevelScene, AboutScene, HelpScene, FirstScene, SecondScene, ThirdScene, NextLevelScene, SecondNextLevelScene, PauseFirstScene, PauseSecondScene, PauseThirdScene, WinScene],
+        scene: [StartScene, MenuScene, LevelScene, AboutScene, HelpScene, FirstScene, SecondScene, ThirdScene, NextLevelScene, SecondNextLevelScene, PauseFirstScene, PauseSecondScene, PauseThirdScene, WinScene, MenuFinalScene],
         physics: {
             default: "arcade",
             arcade: {

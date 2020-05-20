@@ -66,10 +66,17 @@ export default class HelpScene extends Phaser.Scene {
 
 		//quando clicar no space volta para o menu inicial
 		if (this.space_key.isDown) {
-			this.space_key.isDown=false;
-			this.backgroundSound.stop();
-			this.scene.stop();
-			this.scene.start('MenuScene');
+			if (localStorage.getItem("complete") == 3) {
+				this.space_key.isDown=false;
+				this.backgroundSound.stop();
+				this.scene.stop();
+				this.scene.start('MenuFinalScene');
+			} else {
+				this.space_key.isDown=false;
+				this.backgroundSound.stop();
+				this.scene.stop();
+				this.scene.start('MenuScene');
+			}
 		}
 	}
 
