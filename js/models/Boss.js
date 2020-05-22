@@ -27,7 +27,7 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite{
             }
             else if(this.y>995 && this.y<1005){
                 this.pararDescer=true;
-                this.setVelocityY(-300);
+                this.setVelocityY(-280);
             }
             else if(this.y>295 && this.y<305 && this.pararDescer){
                 if(this.esquerda){
@@ -36,18 +36,18 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite{
                     this.setVelocityX(150);
                 }
                 this.setVelocityY(0);
+                this.y=300;
                 this.pararDescer=false;
                 this.i=0;
                 this.timer = Math.floor(Math.random() * 400 + 100);
-                this.y=300;
             }
         }else{
             this.y=300;
-            if(this.x > 149 && this.x < 151){
+            if(this.x > 148 && this.x < 152){
                 this.setVelocityX(150);  
                 this.esquerda=false  
             } 
-            if(this.x > 849 && this.x < 851) {
+            if(this.x > 848 && this.x < 852) {
                 this.setVelocityX(-150);
                 this.esquerda=true
             }

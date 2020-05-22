@@ -32,8 +32,8 @@ window.onload = function() {
     // Grava os níveis completos em cache; Inicialmente, não há níveis completos;
     localStorage.setItem("complete", localStorage.getItem("complete"));
     localStorage.setItem("completedGame", localStorage.getItem("completedGame"));
-    console.log(localStorage.getItem("complete"));
-    console.log(localStorage.getItem("completedGame"));
+    console.log(localStorage.getItem("complete"));      //resultado é o último nível passado
+    console.log(localStorage.getItem("completedGame")); //resultado 3 -> já passou o jogo; outro (provavelmente null) significa que ainda não passou o jogo
     game = new Phaser.Game(gameConfig);
     window.focus();
     resizeGame();
