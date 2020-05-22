@@ -96,16 +96,22 @@ export default class MenuScene extends Phaser.Scene {
 			}
 
 			//quando clicar na tecla 1, se tiver em storage que nivel 1 esta completo começa nivel 2
-			if (localStorage.getItem("complete") == 1) {
+			else if (localStorage.getItem("complete") == 1) {
 				this.backgroundSound3.stop();
 				this.scene.start('SecondScene');
 			}
 
 			//quando clicar na tecla 1, se tiver em storage que nivel 2 esta completo começa nivel 3
-			if (localStorage.getItem("complete") == 2) {
+			else if (localStorage.getItem("complete") == 2) {
 				this.backgroundSound3.stop();
 				this.scene.start('ThirdScene');
 
+			}
+
+			//na primeira vez, para quando ainda tiver o item "complete" a null
+			else{
+				this.backgroundSound3.stop();
+				this.scene.start('FirstScene');
 			}
 		}
 
