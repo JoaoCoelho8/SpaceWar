@@ -30,7 +30,7 @@ export default class Comets extends Phaser.Physics.Arcade.Group {
           this.isRight = !this.isRight;
         }
         
-        //vem do lado direito
+        //vem do outro lado
         else {
           var enemy=this.comets.create(this.x,this.y,"comet");
           var randomVY = Math.random() * 300 + 150;

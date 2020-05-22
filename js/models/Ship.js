@@ -25,6 +25,7 @@ export default class Ship extends Phaser.Physics.Arcade.Sprite{
     setBullets(nr){
         this.specialBullets=nr;
     }
+
     //fire a bullet
     fire(time){
         if(this.specialBullets>0){
@@ -35,20 +36,16 @@ export default class Ship extends Phaser.Physics.Arcade.Sprite{
                         bullet.fire(this.x, this.y -30 ,0,-550);
                         this.specialBullets--;
                     }
-                //tickFreq é a frequencia em ms com a qual o evento poderá acontecer
                 var tickFreq=0;
                 this.nextTick = time + tickFreq;
             }
         }else{
-            //a nave rastreia o tempo entre "tics" e o tempo atual do jogo
-            //o tempo do jogo é sempre atualizado. o próximo tic só será se for inferior ao tempo do jogo
             if(time > this.nextTick) {
                 var bullet = this.bullets.get();
                     if (bullet) {
                         bullet.setScale(0.75);
                         bullet.fire(this.x, this.y -30 ,0,-550);
                     }
-                //tickFreq é a frequencia em ms com a qual o evento poderá acontecer
                 var tickFreq=0;
                 this.nextTick = time + tickFreq;
             }    
@@ -147,9 +144,6 @@ export default class Ship extends Phaser.Physics.Arcade.Sprite{
         this.canBeKilled = false;
     }
 
-    /**
-     * replace the bird on-screen, change the bird color (tint) and re-enable collisions
-     */
     revive() {
         this.canBeKilled = false;
         let i = 0;
@@ -157,14 +151,13 @@ export default class Ship extends Phaser.Physics.Arcade.Sprite{
         let changeTint = true;
 
         /**
-         * timer to change the bird's color/tint 
+         * timer to change the ship's color/tint 
          */
         this.scene.time.addEvent({
             repeat: repetition,
             loop: false,
             callback: () => {
 
-                //in the last repetition replace the normal color (tint) and re-enables collision
                 if (i >= repetition) {
                     this.tint = 0xFFFFFF
                     this.canBeKilled = true;
@@ -188,9 +181,6 @@ export default class Ship extends Phaser.Physics.Arcade.Sprite{
     special() {
         let repetition = 12200
 
-        /**
-         * timer to change the bird's color/tint 
-         */
         this.scene.time.addEvent({
             repeat: repetition,
             loop: false,

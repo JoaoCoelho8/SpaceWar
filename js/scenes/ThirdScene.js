@@ -98,9 +98,6 @@ export default class ThirdScene extends Phaser.Scene {
     this.stepWidth = this.energyMask.displayWidth / 100;  //100 vem de boss.lives/bullet damage <=> 1000/10=100
   }
 
-  //função update pode ter como parametros o tempo do jogo e a variação em milisegundos entre as frames
-  //será usado aqui para marcar a duração entre dois tiros consecutivos
-  //https://photonstorm.github.io/phaser3-docs/Phaser.Scene.html#update__anchor
   update(time,delta) {
     
     this.song.resume();
@@ -218,7 +215,6 @@ export default class ThirdScene extends Phaser.Scene {
           this.dead.play();
           this.boss.lives=this.boss.lives-10;
           this.energyMask.x -= this.stepWidth;
-          //this.labelLivesBoss.setText(this.boss.lives);
         }
       },
     );

@@ -1,4 +1,3 @@
-//import config from './config.js';
 import FirstScene from './scenes/FirstScene.js';
 import SecondScene from './scenes/SecondScene.js';
 import ThirdScene from './scenes/ThirdScene.js';
@@ -29,7 +28,7 @@ window.onload = function() {
         }
     }
     
-    // Grava os níveis completos em cache; Inicialmente, não há níveis completos;
+    // Carregar informação que poderá estar guardada no computador
     localStorage.setItem("complete", localStorage.getItem("complete"));
     localStorage.setItem("completedGame", localStorage.getItem("completedGame"));
     console.log(localStorage.getItem("complete"));      //resultado é o último nível passado

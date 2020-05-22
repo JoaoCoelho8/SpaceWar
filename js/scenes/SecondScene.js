@@ -61,7 +61,6 @@ export default class SecondScene extends Phaser.Scene {
   }
 
   create() {
-    //https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.Group.html
     this.enemies = new Enemies(this.physics.world, this, []);
     this.comets = new Comets(this.physics.world,this,[]);
     this.lifes = new Lifes(this.physics.world,this,[]);
@@ -83,9 +82,6 @@ export default class SecondScene extends Phaser.Scene {
     this.addColisions();  
   }
 
-  //função update pode ter como parametros o tempo do jogo e a variação em milisegundos entre as frames
-  //será usado aqui para marcar a duração entre dois tiros consecutivos
-  //https://photonstorm.github.io/phaser3-docs/Phaser.Scene.html#update__anchor
   update(time,delta) {
 
     this.songUp();
@@ -243,7 +239,7 @@ export default class SecondScene extends Phaser.Scene {
             this.ship.special();
           }
         });
-        //coemça som da nave ter apanhado uma estrala
+        //começa som da nave ter apanhado uma estrela
         this.catchupS.play();
         //aumenta score (+100)
           //this.score += 100;
@@ -294,7 +290,7 @@ export default class SecondScene extends Phaser.Scene {
       repeat: -1
     });
 
-    //adiconar novos inimigos com delay de 1000 - vao entrar de lado
+    //adiconar novos inimigos com delay - vao entrar de lado
     this.timer2 = this.time.addEvent({
       delay: 500,
       callback: this.enemies.addNewEnemy2,
@@ -310,7 +306,7 @@ export default class SecondScene extends Phaser.Scene {
       repeat: -1
     });
 
-    //adiconar novos cometas com delay de 350
+    //adiconar novos cometas com delay de 400
     this.timer4 = this.time.addEvent({
       delay: 400,
       callback: this.comets.addNewEnemy,
@@ -452,6 +448,8 @@ export default class SecondScene extends Phaser.Scene {
     //posição onde a nave vai começar
     this.ship = new Ship(this, 500, 900);
     this.ship.setSize(90,90,true);
+
+    //resolução de problema que aumentava o score mesmo sem o utilizador ter disparado uma bala
     let badBullet = this.ship.bullets.getFirstAlive()
     this.ship.bullets.killAndHide(badBullet);
     badBullet.removeFromScreen();

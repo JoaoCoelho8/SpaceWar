@@ -48,7 +48,6 @@ export default class FirstScene extends Phaser.Scene {
   }
 
   create() {
-    //https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.Group.html
     this.enemies = new Enemies(this.physics.world, this, []);
     this.comets = new Comets(this.physics.world,this,[]);
 
@@ -69,8 +68,6 @@ export default class FirstScene extends Phaser.Scene {
   }
 
   //função update pode ter como parametros o tempo do jogo e a variação em milisegundos entre as frames
-  //será usado aqui para marcar a duração entre dois tiros consecutivos
-  //https://photonstorm.github.io/phaser3-docs/Phaser.Scene.html#update__anchor
   update(time,delta) {
 
     this.songUp();

@@ -81,7 +81,7 @@ export default class StartScene extends Phaser.Scene {
 		this.songUp();
 		this.songDown();
 
-		//quando clicar no space avança para o menu
+		//quando clicar no space avança para o menu (text com fade out)
 		if (this.space_key.isDown) {
 			this.labelPlayNum2.destroy();
 			var fade = this.plugins.get('rexfadeplugin').fadeOutDestroy(this.labelPlayNum1, 2000);
