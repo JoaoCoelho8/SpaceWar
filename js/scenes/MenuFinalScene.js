@@ -121,6 +121,13 @@ export default class MenuFinalScene extends Phaser.Scene {
 				this.scene.start('ThirdScene');
 
 			}
+
+			//quando clicar na tecla 1, se tiver em storage que o jogo esta completo começa nivel 1
+			if (localStorage.getItem("complete") == 3) {
+				this.backgroundSound3.stop();
+				this.scene.start('FirstScene');
+
+			}
 		}
 
 		//quando clicar na tecla 2, entra no menu levels

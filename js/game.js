@@ -30,7 +30,10 @@ window.onload = function() {
     }
     
     // Grava os níveis completos em cache; Inicialmente, não há níveis completos;
-	localStorage.setItem("complete", "0");
+    localStorage.setItem("complete", localStorage.getItem("complete"));
+    localStorage.setItem("completedGame", localStorage.getItem("completedGame"));
+    console.log(localStorage.getItem("complete"));
+    console.log(localStorage.getItem("completedGame"));
     game = new Phaser.Game(gameConfig);
     window.focus();
     resizeGame();

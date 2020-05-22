@@ -76,7 +76,7 @@ export default class AboutScene extends Phaser.Scene {
 
 		//quando clicar no space volta para o menu inicial
 		if (this.space_key.isDown) {
-			if (localStorage.getItem("complete") == 3) {
+			if (localStorage.getItem("completedGame") == "3") {
 				this.space_key.isDown=false;
 				this.backgroundSound.stop();
 				this.scene.stop();

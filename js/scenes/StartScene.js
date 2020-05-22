@@ -94,7 +94,11 @@ export default class StartScene extends Phaser.Scene {
 			this.space_key.isDown=false;
 			this.scene.stop();
 			this.backgroundSound.stop();
-			this.scene.start('MenuScene');
+			if(localStorage.getItem("completedGame") == "3"){
+				this.scene.start('MenuFinalScene');
+			}else{
+				this.scene.start('MenuScene');
+			}
 		}
 	}
 

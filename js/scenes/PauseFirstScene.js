@@ -60,7 +60,7 @@ export default class PauseFirstScene extends Phaser.Scene {
 
 		//ir para menu
 		if (this.enterKey.isDown) {
-			if (localStorage.getItem("complete") == 3) {
+			if (localStorage.getItem("completedGame") == "3") {
 				this.enterKey.isDown=false;
 				this.backgroundSound.stop();
 				this.scene.stop();

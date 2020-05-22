@@ -62,7 +62,7 @@ export default class MenuScene extends Phaser.Scene {
 		});
 
 		//adicionar texto
-		this.labelPlay = this.add.text(480, 680, "Help", {
+		this.labelPlay = this.add.text(505, 680, "Help", {
 			font: "37px Cambria",
 			fill: "white"
 		});
@@ -74,7 +74,7 @@ export default class MenuScene extends Phaser.Scene {
 		});
 
 		//adicionar texto
-		this.labelLevels = this.add.text(500, 790, "About", {
+		this.labelLevels = this.add.text(495, 790, "About", {
 			font: "37px Cambria",
 			fill: "white"
 		});
