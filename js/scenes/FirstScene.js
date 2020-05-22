@@ -52,8 +52,6 @@ export default class FirstScene extends Phaser.Scene {
     this.enemies = new Enemies(this.physics.world, this, []);
     this.comets = new Comets(this.physics.world,this,[]);
 
-    this.flag=false;
-
     this.song = this.sound.add("song", { volume: 0.4, loop: true });
     this.song.play();
     
@@ -79,7 +77,6 @@ export default class FirstScene extends Phaser.Scene {
     this.songDown();
     
     this.song.resume()
-    //console.log(this.song);
     
     // passar de nivel
     this.checkWin();
@@ -149,21 +146,17 @@ export default class FirstScene extends Phaser.Scene {
         this.enemies.killAndHide(enemy);
         this.ship.bullets.killAndHide(bullet);
         bullet.removeFromScreen();
-        bullet.destroy();
+        //bullet.destroy();
         enemy.setY(-2000); enemy.setX(-2000); enemy.setVelocity(0, 0);
         enemy.destroy();
       },
       () => {
-        if(!this.flag){
-          this.flag=true
-        }else{
-          //.... score aumenta 10 pq matamos um inimigos
-          this.score+=10;
-          //.... atualiza o score
-          this.labelScore.setText(this.score);
-          //.... som de o inimigo eliminado
-          this.enemyDown.play();
-        }
+        //.... score aumenta 10 pq matamos um inimigos
+        this.score+=10;
+        //.... atualiza o score
+        this.labelScore.setText(this.score);
+        //.... som de o inimigo eliminado
+        this.enemyDown.play();
       }
     );
 
@@ -348,6 +341,9 @@ export default class FirstScene extends Phaser.Scene {
     //posição onde a nave vai começar
     this.ship = new Ship(this, 500, 900);
     this.ship.setSize(90,90,true);
+    let badBullet = this.ship.bullets.getFirstAlive()
+    this.ship.bullets.killAndHide(badBullet);
+    badBullet.removeFromScreen();
   }
 
   addInputs() {
@@ -411,7 +407,7 @@ export default class FirstScene extends Phaser.Scene {
   //disparar 
   checkInputs(time) {
     this.ship.update(this.cursors);
-    if (Phaser.Input.Keyboard.JustDown(this.spaceBar) && this.flag) {
+    if (Phaser.Input.Keyboard.JustDown(this.spaceBar)) {
       //tempo do jogo será passado para o objeto nave
       this.ship.fire(time);
       this.shootS.play();

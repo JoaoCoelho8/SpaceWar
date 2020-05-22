@@ -102,6 +102,7 @@ export default class ThirdScene extends Phaser.Scene {
   //será usado aqui para marcar a duração entre dois tiros consecutivos
   //https://photonstorm.github.io/phaser3-docs/Phaser.Scene.html#update__anchor
   update(time,delta) {
+    
     this.song.resume();
 
     this.moveBoss();
@@ -343,6 +344,9 @@ export default class ThirdScene extends Phaser.Scene {
     //posição onde a nave vai começar
     this.ship = new Ship(this, 500, 900);
     this.ship.setSize(90,90,true);
+    let badBullet = this.ship.bullets.getFirstAlive()
+    this.ship.bullets.killAndHide(badBullet);
+    badBullet.removeFromScreen();
   }
 
   //criar boss
